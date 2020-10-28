@@ -49,6 +49,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
         labelName: 'Version de app',
         icon: Icon(Icons.info),
       ),
+      DrawerList(
+        index: DrawerIndex.MedicalRecord,
+        labelName: 'Historial médico',
+        icon: Icon(Icons.medical_services),
+      ),
     ];
   }
 
@@ -263,6 +268,7 @@ enum DrawerIndex {
   About,
   Invite,
   Testing,
+  MedicalRecord,
 }
 
 class DrawerList {

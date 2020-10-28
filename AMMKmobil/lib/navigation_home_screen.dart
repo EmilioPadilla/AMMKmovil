@@ -7,6 +7,8 @@ import 'package:best_flutter_ui_templates/home_screen.dart';
 import 'package:best_flutter_ui_templates/invite_friend_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'medicalRecord_screen.dart';
+
 class NavigationHomeScreen extends StatefulWidget {
   @override
   _NavigationHomeScreenState createState() => _NavigationHomeScreenState();
@@ -65,6 +67,10 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       } else if (drawerIndex == DrawerIndex.Invite) {
         setState(() {
           screenView = InviteFriend();
+        });
+      } else if (drawerIndex == DrawerIndex.MedicalRecord) {
+        setState(() {
+          screenView = MedicalRecordScreen();
         });
       } else {
         //do in your way......
