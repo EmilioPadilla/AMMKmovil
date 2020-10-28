@@ -3,7 +3,7 @@ import 'package:best_flutter_ui_templates/custom_drawer/drawer_user_controller.d
 import 'package:best_flutter_ui_templates/custom_drawer/home_drawer.dart';
 import 'package:best_flutter_ui_templates/deducciones.dart';
 import 'package:best_flutter_ui_templates/feedback_screen.dart';
-import 'package:best_flutter_ui_templates/help_screen.dart';
+import 'package:best_flutter_ui_templates/registrar_asistencia.dart';
 import 'package:best_flutter_ui_templates/home_screen.dart';
 import 'package:best_flutter_ui_templates/invite_friend_screen.dart';
 import 'package:best_flutter_ui_templates/nomina_empleados.dart';
