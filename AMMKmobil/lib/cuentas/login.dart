@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:best_flutter_ui_templates/navigation_home_screen.dart';
 
 class Login extends StatefulWidget{
   @override
@@ -65,8 +66,10 @@ class _State extends State<Login> {
                       color: Colors.blue,
                       child: Text('Iniciar Sesión'),
                       onPressed: () {
-                        print(nameController.text);
-                        print(passwordController.text);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => NavigationHomeScreen())
+                        );
                       },
                     )),
               ],
