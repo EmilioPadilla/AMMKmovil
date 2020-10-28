@@ -1,14 +1,14 @@
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:flutter/material.dart';
 
-import 'design_course_app_theme.dart';
+import '../design_course_app_theme.dart';
 
-class HelpScreen extends StatefulWidget {
+class RegistrarQR extends StatefulWidget {
   @override
-  _HelpScreenState createState() => _HelpScreenState();
+  _RegistrarQRState createState() => _RegistrarQRState();
 }
 
-class _HelpScreenState extends State<HelpScreen> {
+class _RegistrarQRState extends State<RegistrarQR> {
 
   @override
   void initState() {

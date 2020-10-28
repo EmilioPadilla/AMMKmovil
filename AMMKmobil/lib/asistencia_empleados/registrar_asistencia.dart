@@ -1,7 +1,7 @@
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:flutter/material.dart';
-
-import 'design_course_app_theme.dart';
+import 'package:best_flutter_ui_templates/asistencia_empleados/registrar_qr.dart';
+import '../design_course_app_theme.dart';
 
 class HelpScreen extends StatefulWidget {
   @override
@@ -9,31 +9,6 @@ class HelpScreen extends StatefulWidget {
 }
 
 class _HelpScreenState extends State<HelpScreen> {
-  String convertirDia(int dia) {
-    switch (dia) {
-      case 1:
-        return "lunes";
-        break;
-      case 2:
-        return "martes";
-        break;
-      case 3:
-        return "miércoles";
-        break;
-      case 4:
-        return "jueves";
-        break;
-      case 5:
-        return "viernes";
-        break;
-      case 6:
-        return "sábado";
-        break;
-      case 7:
-        return "domingo";
-        break;
-    }
-  }
 
   @override
   void initState() {
@@ -66,7 +41,6 @@ class _HelpScreenState extends State<HelpScreen> {
       'domingo'
     ];
     DateTime now = DateTime.now();
-    String nombreDia = convertirDia(now.weekday);
 
     String convertedDateTime =
         "Hoy es ${days[now.weekday-1]} \n${now.day.toString().padLeft(2, '0')}-${months[now.month-1]}-${now.year.toString()}";
@@ -123,7 +97,7 @@ class _HelpScreenState extends State<HelpScreen> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Center(
                     child: Container(
                       width: 140,
@@ -139,26 +113,34 @@ class _HelpScreenState extends State<HelpScreen> {
                               blurRadius: 8.0),
                         ],
                       ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-
+                        child: RaisedButton(
+                          textColor:  Colors.white,
+                          color: DesignCourseAppTheme.nearlyBlue,
+                          child: Text('Registrar entrada', textAlign: TextAlign.center,),
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> RegistrarQR()));
                           },
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Text(
-                                'Registrar entrada',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                        )
+                      // child: Material(
+                      //   color: Colors.transparent,
+                      //   child: InkWell(
+                      //     onTap: () {
+                      //
+                      //     },
+                      //     child: Center(
+                      //       child: Padding(
+                      //         padding: const EdgeInsets.all(4.0),
+                      //         child: Text(
+                      //           'Registrar entrada',
+                      //           style: TextStyle(
+                      //             fontWeight: FontWeight.w500,
+                      //             color: Colors.white,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ),
                   ),
                 ),

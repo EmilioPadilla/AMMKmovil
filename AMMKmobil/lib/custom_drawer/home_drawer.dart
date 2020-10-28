@@ -45,16 +45,15 @@ class _HomeDrawerState extends State<HomeDrawer> {
         icon: Icon(Icons.schedule),
       ),
       DrawerList(
-        index: DrawerIndex.Share,
-        labelName: 'Version de app',
-        icon: Icon(Icons.info),
-      ),
-      DrawerList(
         index: DrawerIndex.NominaEmpleados,
         labelName: 'Nomina Empleados',
         icon: Icon(Icons.attach_money),
       ),
-
+      DrawerList(
+        index: DrawerIndex.Share,
+        labelName: 'Version de app',
+        icon: Icon(Icons.info),
+      ),
     ];
   }
 
