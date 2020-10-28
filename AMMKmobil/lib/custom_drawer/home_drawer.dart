@@ -49,6 +49,21 @@ class _HomeDrawerState extends State<HomeDrawer> {
         labelName: 'Version de app',
         icon: Icon(Icons.info),
       ),
+      DrawerList(
+        index: DrawerIndex.NominaEmpleados,
+        labelName: 'Nomina Empleados',
+        icon: Icon(Icons.attach_money),
+      ),
+      DrawerList(
+        index: DrawerIndex.Deducciones,
+        labelName: 'Deducciones',
+        icon: Icon(Icons.attach_money),
+      ),
+      DrawerList(
+        index: DrawerIndex.Percepciones,
+        labelName: 'Percepciones',
+        icon: Icon(Icons.attach_money),
+      ),
     ];
   }
 
@@ -84,13 +99,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             width: 120,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(color: AppTheme.grey.withOpacity(0.6), offset: const Offset(2.0, 4.0), blurRadius: 8),
-                              ],
+
                             ),
                             child: ClipRRect(
                               borderRadius: const BorderRadius.all(Radius.circular(60.0)),
-                              child: Image.asset('assets/images/userImage.jpeg'),
+                              child: Image.asset('assets/images/logoPaloma.png'),
                             ),
                           ),
                         ),
@@ -100,7 +113,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8, left: 4),
                     child: Text(
-                      'Alberta Rodriguez',
+                      'Maria Kolbe',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: AppTheme.grey,
@@ -263,6 +276,9 @@ enum DrawerIndex {
   About,
   Invite,
   Testing,
+  NominaEmpleados,
+  Deducciones,
+  Percepciones,
 }
 
 class DrawerList {
