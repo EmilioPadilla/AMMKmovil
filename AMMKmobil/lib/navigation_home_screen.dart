@@ -1,10 +1,13 @@
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:best_flutter_ui_templates/custom_drawer/drawer_user_controller.dart';
 import 'package:best_flutter_ui_templates/custom_drawer/home_drawer.dart';
+import 'package:best_flutter_ui_templates/deducciones.dart';
 import 'package:best_flutter_ui_templates/feedback_screen.dart';
 import 'package:best_flutter_ui_templates/help_screen.dart';
 import 'package:best_flutter_ui_templates/home_screen.dart';
 import 'package:best_flutter_ui_templates/invite_friend_screen.dart';
+import 'package:best_flutter_ui_templates/nomina_empleados.dart';
+import 'package:best_flutter_ui_templates/percepciones.dart';
 import 'package:flutter/material.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
@@ -34,7 +37,10 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
           backgroundColor: AppTheme.nearlyWhite,
           body: DrawerUserController(
             screenIndex: drawerIndex,
-            drawerWidth: MediaQuery.of(context).size.width * 0.75,
+            drawerWidth: MediaQuery
+                .of(context)
+                .size
+                .width * 0.75,
             onDrawerCall: (DrawerIndex drawerIndexdata) {
               changeIndex(drawerIndexdata);
               //callback from drawer for replace screen as user need with passing DrawerIndex(Enum index)
@@ -66,8 +72,18 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         setState(() {
           screenView = InviteFriend();
         });
-      } else {
-        //do in your way......
+      } else if (drawerIndex == DrawerIndex.NominaEmpleados) {
+        setState(() {
+          screenView = NominaEmpleados();
+        });
+      } else if (drawerIndex == DrawerIndex.Deducciones) {
+        setState(() {
+          screenView = Deducciones();
+        });
+      }else if (drawerIndex == DrawerIndex.Percepciones) {
+        setState(() {
+          screenView = Percepciones();
+        });
       }
     }
   }
