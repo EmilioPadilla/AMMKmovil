@@ -76,15 +76,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         setState(() {
           screenView = NominaEmpleados();
         });
-      } else if (drawerIndex == DrawerIndex.Deducciones) {
-        setState(() {
-          screenView = Deducciones();
-        });
-      }else if (drawerIndex == DrawerIndex.Percepciones) {
-        setState(() {
-          screenView = Percepciones();
-        });
+      }
       }
     }
   }
-}

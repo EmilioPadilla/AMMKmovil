@@ -54,16 +54,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
         labelName: 'Nomina Empleados',
         icon: Icon(Icons.attach_money),
       ),
-      DrawerList(
-        index: DrawerIndex.Deducciones,
-        labelName: 'Deducciones',
-        icon: Icon(Icons.attach_money),
-      ),
-      DrawerList(
-        index: DrawerIndex.Percepciones,
-        labelName: 'Percepciones',
-        icon: Icon(Icons.attach_money),
-      ),
+
     ];
   }
 
@@ -277,8 +268,7 @@ enum DrawerIndex {
   Invite,
   Testing,
   NominaEmpleados,
-  Deducciones,
-  Percepciones,
+
 }
 
 class DrawerList {
