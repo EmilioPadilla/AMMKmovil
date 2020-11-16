@@ -1,5 +1,11 @@
 import 'package:best_flutter_ui_templates/app_theme.dart';
+import 'package:best_flutter_ui_templates/navigation_home_screen.dart';
+import 'package:best_flutter_ui_templates/percepciones.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+import 'deducciones.dart';
+
 
 class FeedbackScreen extends StatefulWidget {
   @override
@@ -22,7 +28,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           backgroundColor: AppTheme.nearlyWhite,
           body: SingleChildScrollView(
             child: SizedBox(
-              height: MediaQuery.of(context).size.height,
               child: Column(
                 children: <Widget>[
                   Container(
@@ -30,14 +35,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         top: MediaQuery.of(context).padding.top,
                         left: 16,
                         right: 16),
-                    child: Image.asset('assets/images/feedbackImage.png'),
+                    child: Image.asset('assets/images/logoPaloma.png',width: 150,height: 150),
                   ),
                   Container(
                     padding: const EdgeInsets.only(top: 8),
                     child: Text(
-                      'Your FeedBack',
+                      'MI NÓMINA',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 40,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -45,54 +50,161 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   Container(
                     padding: const EdgeInsets.only(top: 16),
                     child: const Text(
-                      'Give your best time for this moment.',
+                      'JHON DOE    27     CHOFER',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 20,
                       ),
                     ),
+
                   ),
-                  _buildComposer(),
+                  Container(
+                      height:50,
+                      padding: EdgeInsets.fromLTRB(100,0,100,10),
+                      child: RaisedButton(
+                        textColor:  Colors.white,
+                        color:Colors.blueAccent,
+                        child: Text('Percepciones'),
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Percepciones())
+                          );
+                        },
+                      )
+
+                  ),
+                  Container(
+                      height:50,
+                      padding: EdgeInsets.fromLTRB(200,0,100,10),
+                      child: RaisedButton(
+                        textColor:  Colors.white,
+                        color:Colors.blueAccent,
+                        child: Text('Deducciones'),
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Deducciones())
+                          );
+                        },
+                      )
+
+                  ),
+
                   Padding(
                     padding: const EdgeInsets.only(top: 16),
                     child: Center(
                       child: Container(
-                        width: 120,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(4.0)),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(0.6),
-                                offset: const Offset(4, 4),
-                                blurRadius: 8.0),
-                          ],
+
+                        child:
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child:
+
+                          DataTable(
+                              columns: [
+
+                                DataColumn(label: Text('Periodo',style: TextStyle(fontWeight: FontWeight.bold))),
+                                DataColumn(label: Text('# dias',style: TextStyle(fontWeight: FontWeight.bold))),
+                                DataColumn(label: Text('Percepciones',style: TextStyle(fontWeight: FontWeight.bold))),
+                                DataColumn(label: Text('Deducciones',style: TextStyle(fontWeight: FontWeight.bold))),
+                                DataColumn(label: Text('Total',style: TextStyle(fontWeight: FontWeight.bold))),
+                                DataColumn(label: Text('Faltas',style: TextStyle(fontWeight: FontWeight.bold))),
+                                DataColumn(label: Text('Retardos',style: TextStyle(fontWeight: FontWeight.bold))),
+
+                              ],
+                              rows: [
+                                DataRow(
+                                    selected: true,
+                                    cells: [
+                                      DataCell(Text ('01/09/20 - 15/09/20')),
+                                      DataCell(Text ('10')),
+                                      DataCell(Text ('3000')),
+                                      DataCell(Text ('1000')),
+                                      DataCell(Text ('4000')),
+                                      DataCell(Text ('2')),
+                                      DataCell(Text ('1')),
+
+
+                                    ]),
+                                DataRow(
+                                    selected: false,
+                                    cells: [
+                                      DataCell(Text ('15/08/20 - 31/08/20')),
+                                      DataCell(Text ('15')),
+                                      DataCell(Text ('3500')),
+                                      DataCell(Text ('1000')),
+                                      DataCell(Text ('4500')),
+                                      DataCell(Text ('0')),
+                                      DataCell(Text ('1')),
+
+
+                                    ]),
+
+                            DataRow(
+                                selected: false,
+                                cells: [
+                                  DataCell(Text ('15/08/20 - 31/08/20')),
+                                  DataCell(Text ('15')),
+                                  DataCell(Text ('3500')),
+                                  DataCell(Text ('1000')),
+                                  DataCell(Text ('4500')),
+                                  DataCell(Text ('0')),
+                                  DataCell(Text ('1')),
+
+
+
+                                ]),
+                            DataRow(
+                                selected: false,
+                                cells: [
+                                  DataCell(Text ('15/08/20 - 31/08/20')),
+                                  DataCell(Text ('15')),
+                                  DataCell(Text ('3500')),
+                                  DataCell(Text ('1000')),
+                                  DataCell(Text ('4500')),
+                                  DataCell(Text ('0')),
+                                  DataCell(Text ('1')),
+
+
+
+                                ]),
+                            DataRow(
+                                selected: false,
+                                cells: [
+                                  DataCell(Text ('15/08/20 - 31/08/20')),
+                                  DataCell(Text ('15')),
+                                  DataCell(Text ('3500')),
+                                  DataCell(Text ('1000')),
+                                  DataCell(Text ('4500')),
+                                  DataCell(Text ('0')),
+                                  DataCell(Text ('1')),
+
+
+
+                                ]),
+                            DataRow(
+                                selected: false,
+                                cells: [
+                                  DataCell(Text ('15/08/20 - 31/08/20')),
+                                  DataCell(Text ('15')),
+                                  DataCell(Text ('3500')),
+                                  DataCell(Text ('1000')),
+                                  DataCell(Text ('4500')),
+                                  DataCell(Text ('0')),
+                                  DataCell(Text ('1')),
+
+
+
+                                ]),
+
+                              ]),
+
                         ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              FocusScope.of(context).requestFocus(FocusNode());
-                            },
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Text(
-                                  'Send',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+
+
+
                         ),
+
                       ),
                     ),
-                  )
+
                 ],
               ),
             ),
@@ -102,46 +214,5 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     );
   }
 
-  Widget _buildComposer() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppTheme.white,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey.withOpacity(0.8),
-                offset: const Offset(4, 4),
-                blurRadius: 8),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(25),
-          child: Container(
-            padding: const EdgeInsets.all(4.0),
-            constraints: const BoxConstraints(minHeight: 80, maxHeight: 160),
-            color: AppTheme.white,
-            child: SingleChildScrollView(
-              padding:
-                  const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 0),
-              child: TextField(
-                maxLines: null,
-                onChanged: (String txt) {},
-                style: TextStyle(
-                  fontFamily: AppTheme.fontName,
-                  fontSize: 16,
-                  color: AppTheme.dark_grey,
-                ),
-                cursorColor: Colors.blue,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Enter your feedback...'),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+
 }

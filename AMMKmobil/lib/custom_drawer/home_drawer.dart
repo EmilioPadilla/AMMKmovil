@@ -24,33 +24,34 @@ class _HomeDrawerState extends State<HomeDrawer> {
     drawerList = <DrawerList>[
       DrawerList(
         index: DrawerIndex.HOME,
-        labelName: 'Home',
+        labelName: 'Vista Principal',
         icon: Icon(Icons.home),
       ),
       DrawerList(
         index: DrawerIndex.Help,
-        labelName: 'Help',
-        isAssetsImage: true,
-        imageName: 'assets/images/supportIcon.png',
+        labelName: 'Registrar asistencia',
+        // isAssetsImage: true,
+        // imageName: 'assets/images/supportIcon.png',
+        icon: Icon(Icons.qr_code_scanner),
       ),
       DrawerList(
         index: DrawerIndex.FeedBack,
-        labelName: 'FeedBack',
-        icon: Icon(Icons.help),
+        labelName: 'Mi nomina',
+        icon: Icon(Icons.attach_money),
       ),
       DrawerList(
         index: DrawerIndex.Invite,
-        labelName: 'Invite Friend',
-        icon: Icon(Icons.group),
+        labelName: 'Mi horario',
+        icon: Icon(Icons.schedule),
+      ),
+      DrawerList(
+        index: DrawerIndex.NominaEmpleados,
+        labelName: 'Nomina Empleados',
+        icon: Icon(Icons.attach_money),
       ),
       DrawerList(
         index: DrawerIndex.Share,
-        labelName: 'Rate the app',
-        icon: Icon(Icons.share),
-      ),
-      DrawerList(
-        index: DrawerIndex.About,
-        labelName: 'About Us',
+        labelName: 'Version de app',
         icon: Icon(Icons.info),
       ),
     ];
@@ -88,13 +89,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             width: 120,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(color: AppTheme.grey.withOpacity(0.6), offset: const Offset(2.0, 4.0), blurRadius: 8),
-                              ],
+
                             ),
                             child: ClipRRect(
                               borderRadius: const BorderRadius.all(Radius.circular(60.0)),
-                              child: Image.asset('assets/images/userImage.png'),
+                              child: Image.asset('assets/images/logoPaloma.png'),
                             ),
                           ),
                         ),
@@ -104,7 +103,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8, left: 4),
                     child: Text(
-                      'Chris Hemsworth',
+                      'Maria Kolbe',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: AppTheme.grey,
@@ -141,7 +140,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             children: <Widget>[
               ListTile(
                 title: Text(
-                  'Sign Out',
+                  'Cerrar sesión',
                   style: TextStyle(
                     fontFamily: AppTheme.fontName,
                     fontWeight: FontWeight.w600,
@@ -267,6 +266,8 @@ enum DrawerIndex {
   About,
   Invite,
   Testing,
+  NominaEmpleados,
+
 }
 
 class DrawerList {
