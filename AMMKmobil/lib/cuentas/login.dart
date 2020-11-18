@@ -7,6 +7,10 @@ class Login extends StatefulWidget{
 }
 
 class _State extends State<Login> {
+  final _formKey = GlobalKey<FormState>();
+  var arr = ["admin","password"];
+  String _password;
+  String _username;
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -15,50 +19,54 @@ class _State extends State<Login> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Maximiliano María Kolbe'),
+          automaticallyImplyLeading: false,
         ),
-        body: Padding(
-            padding: EdgeInsets.all(10),
-            child: ListView(
-              children: <Widget>[
-                Container(
-                  child: Image.asset('assets/images/LogoAmmk.jpg',
-                    width: 400,
-                    height: 250,
-
+        body: Container(
+            padding: EdgeInsets.all(20),
+            child: Form(          // <= NEW
+              key: _formKey,
+                child: ListView(
+                  children: <Widget>[
+                    Container(
+                      child: Image.asset('assets/images/LogoAmmk.jpg',
+                      width: 400,
+                      height: 250,
+                    ),
                   ),
-                ),
-                Container(
+                  Container(
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.all(10),
-                    child: Text(
+                      child: Text(
                       'Inicio de Sesión',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w300,
                           fontSize: 30),
                     )),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Username',
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: TextFormField(
+                      onSaved: (value) => _username = value,
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Username',
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                  child: TextField(
-                    obscureText: true,
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Contraseña',
+                  Container(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: TextFormField(
+                      onSaved: (value) => _password = value,
+                      obscureText: true,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Contraseña',
+                      ),
                     ),
                   ),
-                ),
-                Container(
+                  Container(
                     height: 50,
                     padding: EdgeInsets.fromLTRB(100, 0, 100, 10),
                     child: RaisedButton(
@@ -66,13 +74,22 @@ class _State extends State<Login> {
                       color: Colors.blue,
                       child: Text('Iniciar Sesión'),
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => NavigationHomeScreen())
-                        );
+                        final form = _formKey.currentState;
+                        form.save();
+
+                        // Validate will return true if is valid, or false if invalid.
+                        if (form.validate()) {
+                          print("$_username $_password");
+                          if(_username == arr[0] && _password == arr[1]) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => NavigationHomeScreen(user: _username,))
+                            );
+                          }
+                        }
                       },
                     )),
               ],
-            )));
+        ))));
   }
 }
