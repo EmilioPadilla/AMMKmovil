@@ -1,8 +1,8 @@
-// import 'package:best_flutter_ui_templates/app_theme.dart';
+import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-// import '../design_course_app_theme.dart';
+import '../design_course_app_theme.dart';
 
 class RegistrarQR extends StatefulWidget {
   @override
@@ -16,7 +16,8 @@ class _RegistrarQRState extends State<RegistrarQR> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Scan using:" + (backCamera ? "Front Cam" : "Back Cam")),
+          title: Text("Escanear con: " + (backCamera ? "Frontal" : "Trasera")),
+          backgroundColor: DesignCourseAppTheme.nearlyBlue,
           actions: <Widget>[
             IconButton(
               icon: backCamera
@@ -40,8 +41,8 @@ class _RegistrarQRState extends State<RegistrarQR> {
         body: Center(
           child: Text(
             (qrCodeResult == null) || (qrCodeResult == "")
-                ? "Please Scan to show some result"
-                : "Result:" + qrCodeResult,
+                ? "Escanee el código dado por el administrador"
+                : "Resultado:" + qrCodeResult,
             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
           ),
         ));
@@ -54,6 +55,7 @@ class _RegistrarQRState extends State<RegistrarQR> {
     );
     setState(() {
       qrCodeResult = codeSanner.rawContent;
+      print(qrCodeResult);
     });
   }
 }

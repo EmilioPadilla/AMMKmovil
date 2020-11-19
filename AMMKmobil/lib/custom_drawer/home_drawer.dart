@@ -35,6 +35,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
         icon: Icon(Icons.qr_code_scanner),
       ),
       DrawerList(
+        index: DrawerIndex.QR,
+        labelName: 'Generar código QR',
+        // isAssetsImage: true,
+        // imageName: 'assets/images/supportIcon.png',
+        icon: Icon(Icons.qr_code_scanner),
+      ),
+      DrawerList(
         index: DrawerIndex.FeedBack,
         labelName: 'Mi nomina',
         icon: Icon(Icons.attach_money),
@@ -267,7 +274,7 @@ enum DrawerIndex {
   Invite,
   Testing,
   NominaEmpleados,
-
+  QR
 }
 
 class DrawerList {

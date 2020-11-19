@@ -17,35 +17,13 @@ class _HelpScreenState extends State<HelpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List months = [
-      'Enero',
-      'Febrero',
-      'Marzo',
-      'Abril',
-      'Mayo',
-      'Junio',
-      'Julio',
-      'Agosto',
-      'Septiembre',
-      'Octubre',
-      'Noviembre',
-      'Diciembre'
-    ];
-    List days = [
-      'lunes',
-      'martes',
-      'miércoles',
-      'jueves',
-      'viernes',
-      'sábado',
-      'domingo'
-    ];
+    List months = ['Enero', 'Febrero','Marzo', 'Abril',  'Mayo','Junio','Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    List days = ['lunes','martes', 'miércoles', 'jueves', 'viernes', 'sábado','domingo'];
     DateTime now = DateTime.now();
 
     String convertedDateTime =
         "Hoy es ${days[now.weekday-1]} \n${now.day.toString().padLeft(2, '0')}-${months[now.month-1]}-${now.year.toString()}";
     String hora = "${now.hour.toString()}:${now.minute.toString()}";
-    // String now = dateFormat.format(DateTime.now());
     return Container(
       color: AppTheme.nearlyWhite,
       child: SafeArea(
@@ -121,26 +99,6 @@ class _HelpScreenState extends State<HelpScreen> {
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> RegistrarQR()));
                           },
                         )
-                      // child: Material(
-                      //   color: Colors.transparent,
-                      //   child: InkWell(
-                      //     onTap: () {
-                      //
-                      //     },
-                      //     child: Center(
-                      //       child: Padding(
-                      //         padding: const EdgeInsets.all(4.0),
-                      //         child: Text(
-                      //           'Registrar entrada',
-                      //           style: TextStyle(
-                      //             fontWeight: FontWeight.w500,
-                      //             color: Colors.white,
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                     ),
                   ),
                 ),
