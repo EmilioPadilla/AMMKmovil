@@ -5,7 +5,7 @@ class HomeDrawer extends StatefulWidget {
   const HomeDrawer({Key key, this.screenIndex, this.iconAnimationController, this.callBackIndex}) : super(key: key);
 
   final AnimationController iconAnimationController;
-  final DrawerIndex screenIndex;
+  final screenIndex;
   final Function(DrawerIndex) callBackIndex;
 
   @override

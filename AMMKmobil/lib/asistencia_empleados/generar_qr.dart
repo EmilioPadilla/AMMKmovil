@@ -14,13 +14,14 @@ class GenerarQRState extends State<GenerarQr> {
 
   @override
   Widget build(BuildContext context) {
-    Timer.periodic(Duration(seconds: 30), (timer) {
-      setState(() {
-        ahora = new DateTime.now();
-        dummyData = ahora.toString();
+    if (this.mounted) {
+      Timer.periodic(Duration(seconds: 5), (timer) {
+        setState(() {
+          ahora = new DateTime.now();
+          dummyData = ahora.toString();
+        });
       });
-    });
-
+    }
     return  Container(
         color: AppTheme.nearlyWhite,
         child: SafeArea(
