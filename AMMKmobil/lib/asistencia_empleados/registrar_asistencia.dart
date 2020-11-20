@@ -2,6 +2,76 @@ import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/asistencia_empleados/registrar_qr.dart';
 import '../design_course_app_theme.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
+
+class EstadoCivil {
+  final int id;
+  final String descripcion;
+
+  EstadoCivil({this.id, this.descripcion});
+
+  factory EstadoCivil.fromJson(Map<String, dynamic> json) {
+    return EstadoCivil(
+      id: json['id'] as int,
+      descripcion: json['descripcion'] as String,
+    );
+  }
+}
+
+class ApiResolver {
+  String _baseUrl = 'http://10.0.2.2:8000/api';
+
+  ApiResolver();
+
+  List<EstadoCivil> parsePhotos(String responseBody) {
+    final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+
+    return parsed.map<EstadoCivil>((json) => EstadoCivil.fromJson(json)).toList();
+  }
+
+  Future<List<EstadoCivil>> httpGet(http.Client client, String api) async {
+    final response = await client.get(_baseUrl + "/" + api);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return parsePhotos(response.body);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load response');
+    }
+  }
+}
+
+
+
+class EstadoCivilList extends StatelessWidget {
+  final List<EstadoCivil> civilstatus;
+  var result;
+
+  EstadoCivilList({Key key, this.civilstatus}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    if (civilstatus[0] != null) {
+      result = civilstatus[0].descripcion;
+    } else {
+      result = "No registrado";
+    }
+    return Container(
+        child: Text(
+            "Entrada: ${result}",
+         style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        )
+    );
+  }
+}
 
 class HelpScreen extends StatefulWidget {
   @override
@@ -9,6 +79,7 @@ class HelpScreen extends StatefulWidget {
 }
 
 class _HelpScreenState extends State<HelpScreen> {
+  final api = ApiResolver();
 
   @override
   void initState() {
@@ -17,35 +88,13 @@ class _HelpScreenState extends State<HelpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List months = [
-      'Enero',
-      'Febrero',
-      'Marzo',
-      'Abril',
-      'Mayo',
-      'Junio',
-      'Julio',
-      'Agosto',
-      'Septiembre',
-      'Octubre',
-      'Noviembre',
-      'Diciembre'
-    ];
-    List days = [
-      'lunes',
-      'martes',
-      'miércoles',
-      'jueves',
-      'viernes',
-      'sábado',
-      'domingo'
-    ];
+    List months = ['Enero', 'Febrero','Marzo', 'Abril',  'Mayo','Junio','Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    List days = ['lunes','martes', 'miércoles', 'jueves', 'viernes', 'sábado','domingo'];
     DateTime now = DateTime.now();
 
     String convertedDateTime =
         "Hoy es ${days[now.weekday-1]} \n${now.day.toString().padLeft(2, '0')}-${months[now.month-1]}-${now.year.toString()}";
     String hora = "${now.hour.toString()}:${now.minute.toString()}";
-    // String now = dateFormat.format(DateTime.now());
     return Container(
       color: AppTheme.nearlyWhite,
       child: SafeArea(
@@ -75,13 +124,14 @@ class _HelpScreenState extends State<HelpScreen> {
               ),
               Container(
                 padding: const EdgeInsets.only(top: 16),
-                child: const Text(
-                  '\n\n\nEntrada: No registrada',
-                  // textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: FutureBuilder<List<EstadoCivil>>(
+                  future: api.httpGet(http.Client(), "employeeCivilStatus"),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) print(snapshot.error);
+                    return snapshot.hasData
+                        ? EstadoCivilList(civilstatus: snapshot.data)
+                        : Center(child: CircularProgressIndicator());
+                  },
                 ),
               ),
               Container(
@@ -121,26 +171,6 @@ class _HelpScreenState extends State<HelpScreen> {
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> RegistrarQR()));
                           },
                         )
-                      // child: Material(
-                      //   color: Colors.transparent,
-                      //   child: InkWell(
-                      //     onTap: () {
-                      //
-                      //     },
-                      //     child: Center(
-                      //       child: Padding(
-                      //         padding: const EdgeInsets.all(4.0),
-                      //         child: Text(
-                      //           'Registrar entrada',
-                      //           style: TextStyle(
-                      //             fontWeight: FontWeight.w500,
-                      //             color: Colors.white,
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                     ),
                   ),
                 ),
