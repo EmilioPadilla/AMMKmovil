@@ -5,69 +5,105 @@ import '../design_course_app_theme.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import '../api/apiResolver.dart';
 
-class EstadoCivil {
+var _exitOrUpdate = 0;
+bool _stopRegister = false;
+var _botonRegistroText = "Registrar";
+var _idEmployee = 1;
+
+class WorkedHours {
   final int id;
-  final String descripcion;
+  final int idEmployee;
+  final String horaIngreso;
+  final String horaSalida;
 
-  EstadoCivil({this.id, this.descripcion});
+  WorkedHours({this.id, this.idEmployee, this.horaIngreso, this.horaSalida});
 
-  factory EstadoCivil.fromJson(Map<String, dynamic> json) {
-    return EstadoCivil(
+  factory WorkedHours.fromJson(Map<String, dynamic> json) {
+    return WorkedHours(
       id: json['id'] as int,
-      descripcion: json['descripcion'] as String,
+      idEmployee: json['idEmployee'] as int,
+      horaIngreso: json['horaIngreso'] as String,
+      horaSalida: json['horaSalida'] as String,
     );
   }
 }
 
 class ApiResolver {
-  String _baseUrl = 'http://10.0.2.2:8000/api';
-
   ApiResolver();
 
-  List<EstadoCivil> parsePhotos(String responseBody) {
+  List<WorkedHours> parseApi(String responseBody) {
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
-    return parsed.map<EstadoCivil>((json) => EstadoCivil.fromJson(json)).toList();
+    return parsed.map<WorkedHours>((json) => WorkedHours.fromJson(json)).toList();
   }
 
-  Future<List<EstadoCivil>> httpGet(http.Client client, String api) async {
-    final response = await client.get(_baseUrl + "/" + api);
+  Future<List<WorkedHours>> httpGet(http.Client client, String api, String idEmployee) async {
+    final response = await client.get(apiUrl + "/" + api + "/" + idEmployee);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      return parsePhotos(response.body);
+      return parseApi(response.body);
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to load response');
     }
   }
+
 }
 
 
 
-class EstadoCivilList extends StatelessWidget {
-  final List<EstadoCivil> civilstatus;
-  var result;
+class WorkedHoursList extends StatelessWidget {
+  final List<WorkedHours> workedHours;
+  var horaIngreso;
+  var horaSalida;
 
-  EstadoCivilList({Key key, this.civilstatus}) : super(key: key);
+  WorkedHoursList({Key key, this.workedHours}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (workedHours.length > 0) {
 
-    if (civilstatus[0] != null) {
-      result = civilstatus[0].descripcion;
+      horaIngreso = workedHours[1].horaIngreso;
+      if (horaIngreso == null) {
+        horaIngreso = "No registrada";
+        _botonRegistroText = "Registrar entrada";
+      } else {
+        _botonRegistroText = "Registrar salida";
+        _exitOrUpdate = 1;
+      }
+
+
+
+      if (workedHours[1].horaSalida != null) {
+        print("checar ${workedHours[1].horaSalida}");
+        horaSalida = workedHours[1].horaSalida;
+        _botonRegistroText = "Dia Laboral completado";
+        _stopRegister = true;
+      } else {
+        horaSalida = "No registrada";
+
+      }
     } else {
-      result = "No registrado";
+      horaIngreso = "No registrada";
+      horaSalida = "No registrada";
     }
+
+
     return Container(
+        child: Center (
         child: Text(
-            "Entrada: ${result}",
+            "\n\nEntrada: ${horaIngreso}"
+                "\n\n"
+                "Salida: ${horaSalida}",
          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
+        )
         )
     );
   }
@@ -78,6 +114,34 @@ class HelpScreen extends StatefulWidget {
   _HelpScreenState createState() => _HelpScreenState();
 }
 
+// Alert showed when user has register entrance and exit within same day
+showAlertDialog(BuildContext context) {
+  // set up the button
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Día laboral completado"),
+    content: Text("Has marcado la entrada y la salida de tu dia laboral."),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
 class _HelpScreenState extends State<HelpScreen> {
   final api = ApiResolver();
 
@@ -85,6 +149,8 @@ class _HelpScreenState extends State<HelpScreen> {
   void initState() {
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +161,7 @@ class _HelpScreenState extends State<HelpScreen> {
     String convertedDateTime =
         "Hoy es ${days[now.weekday-1]} \n${now.day.toString().padLeft(2, '0')}-${months[now.month-1]}-${now.year.toString()}";
     String hora = "${now.hour.toString()}:${now.minute.toString()}";
+
     return Container(
       color: AppTheme.nearlyWhite,
       child: SafeArea(
@@ -124,25 +191,14 @@ class _HelpScreenState extends State<HelpScreen> {
               ),
               Container(
                 padding: const EdgeInsets.only(top: 16),
-                child: FutureBuilder<List<EstadoCivil>>(
-                  future: api.httpGet(http.Client(), "employeeCivilStatus"),
+                child: FutureBuilder<List<WorkedHours>>(
+                  future: api.httpGet(http.Client(), "WorkedHours/idEmployee", _idEmployee.toString()),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
                     return snapshot.hasData
-                        ? EstadoCivilList(civilstatus: snapshot.data)
+                        ? WorkedHoursList(workedHours: snapshot.data)
                         : Center(child: CircularProgressIndicator());
                   },
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 16),
-                child: const Text(
-                  'Salida: No registrada',
-                  // textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
                 ),
               ),
               Expanded(
@@ -164,11 +220,15 @@ class _HelpScreenState extends State<HelpScreen> {
                         ],
                       ),
                         child: RaisedButton(
-                          textColor:  Colors.white,
-                          color: DesignCourseAppTheme.nearlyBlue,
-                          child: Text('Registrar entrada', textAlign: TextAlign.center,),
+                          textColor: Colors.white,
+                          color: _stopRegister == true ? Colors.grey : DesignCourseAppTheme.nearlyBlue,
+                          child: Text(_botonRegistroText, textAlign: TextAlign.center,),
                           onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> RegistrarQR()));
+                            _stopRegister == true ?
+                            showAlertDialog(context) :
+                            // 0 = register entrance
+                            // 1 = register exit
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrarQR(_exitOrUpdate)));
                           },
                         )
                     ),
