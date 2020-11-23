@@ -19,7 +19,7 @@ class _RegistrarQRState extends State<RegistrarQR> {
   String qrCodeResult;
   bool backCamera = true;
   DateTime now = DateTime.now();
-  ApiResolver api = new ApiResolver();
+  ApiResolverEmployees api = new ApiResolverEmployees();
   @override
   Widget build(BuildContext context) {
     print(now.toString());

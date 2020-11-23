@@ -3,58 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/asistencia_empleados/registrar_qr.dart';
 import '../design_course_app_theme.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:async';
 import '../api/apiResolver.dart';
+import './WorkedHours.dart';
 
 var _exitOrUpdate = 0;
 bool _stopRegister = false;
 var _botonRegistroText = "Registrar";
 var _idEmployee = 1;
-
-class WorkedHours {
-  final int id;
-  final int idEmployee;
-  final String horaIngreso;
-  final String horaSalida;
-
-  WorkedHours({this.id, this.idEmployee, this.horaIngreso, this.horaSalida});
-
-  factory WorkedHours.fromJson(Map<String, dynamic> json) {
-    return WorkedHours(
-      id: json['id'] as int,
-      idEmployee: json['idEmployee'] as int,
-      horaIngreso: json['horaIngreso'] as String,
-      horaSalida: json['horaSalida'] as String,
-    );
-  }
-}
-
-class ApiResolver {
-  ApiResolver();
-
-  List<WorkedHours> parseApi(String responseBody) {
-    final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-
-    return parsed.map<WorkedHours>((json) => WorkedHours.fromJson(json)).toList();
-  }
-
-  Future<List<WorkedHours>> httpGet(http.Client client, String api, String idEmployee) async {
-    final response = await client.get(apiUrl + "/" + api + "/" + idEmployee);
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      return parseApi(response.body);
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load response');
-    }
-  }
-
-}
-
-
 
 class WorkedHoursList extends StatelessWidget {
   final List<WorkedHours> workedHours;
@@ -67,7 +22,7 @@ class WorkedHoursList extends StatelessWidget {
   Widget build(BuildContext context) {
     if (workedHours.length > 0) {
 
-      horaIngreso = workedHours[1].horaIngreso;
+      horaIngreso = workedHours[0].horaIngreso;
       if (horaIngreso == null) {
         horaIngreso = "No registrada";
         _botonRegistroText = "Registrar entrada";
@@ -78,9 +33,9 @@ class WorkedHoursList extends StatelessWidget {
 
 
 
-      if (workedHours[1].horaSalida != null) {
-        print("checar ${workedHours[1].horaSalida}");
-        horaSalida = workedHours[1].horaSalida;
+      if (workedHours[0].horaSalida != null) {
+        print("checar ${workedHours[0].horaSalida}");
+        horaSalida = workedHours[0].horaSalida;
         _botonRegistroText = "Dia Laboral completado";
         _stopRegister = true;
       } else {
@@ -109,9 +64,9 @@ class WorkedHoursList extends StatelessWidget {
   }
 }
 
-class HelpScreen extends StatefulWidget {
+class RegisterAsistencia extends StatefulWidget {
   @override
-  _HelpScreenState createState() => _HelpScreenState();
+  _RegistrarAsistenciaState createState() => _RegistrarAsistenciaState();
 }
 
 // Alert showed when user has register entrance and exit within same day
@@ -142,15 +97,13 @@ showAlertDialog(BuildContext context) {
   );
 }
 
-class _HelpScreenState extends State<HelpScreen> {
-  final api = ApiResolver();
+class _RegistrarAsistenciaState extends State<RegisterAsistencia> {
+  final apiEmployees = ApiResolverEmployees();
 
   @override
   void initState() {
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +145,7 @@ class _HelpScreenState extends State<HelpScreen> {
               Container(
                 padding: const EdgeInsets.only(top: 16),
                 child: FutureBuilder<List<WorkedHours>>(
-                  future: api.httpGet(http.Client(), "WorkedHours/idEmployee", _idEmployee.toString()),
+                  future: apiEmployees.getWorkedHoursByEmp(http.Client(), "WorkedHours/idEmployee", _idEmployee.toString()),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
                     return snapshot.hasData

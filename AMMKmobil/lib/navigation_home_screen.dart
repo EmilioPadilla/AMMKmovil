@@ -26,7 +26,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   @override
   void initState() {
     drawerIndex = DrawerIndex.HOME;
-    screenView = const MyHomePage();
+    screenView = RegisterAsistencia();
     super.initState();
   }
 
@@ -67,7 +67,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         });
       } else if (drawerIndex == DrawerIndex.Help) {
         setState(() {
-          screenView = HelpScreen();
+          screenView = RegisterAsistencia();
         });
       } else if (drawerIndex == DrawerIndex.FeedBack) {
         setState(() {
