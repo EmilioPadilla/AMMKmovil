@@ -4,6 +4,7 @@ import 'package:best_flutter_ui_templates/custom_drawer/home_drawer.dart';
 import 'package:best_flutter_ui_templates/feedback_screen.dart';
 import 'package:best_flutter_ui_templates/asistencia_empleados/registrar_asistencia.dart';
 import 'package:best_flutter_ui_templates/asistencia_empleados/generar_qr.dart';
+import 'package:best_flutter_ui_templates/Absences/view_absences.dart';
 import 'package:best_flutter_ui_templates/home_screen.dart';
 import 'package:best_flutter_ui_templates/invite_friend_screen.dart';
 import 'package:best_flutter_ui_templates/nomina_empleados.dart';
@@ -29,7 +30,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   @override
   void initState() {
     drawerIndex = DrawerIndex.HOME;
-    screenView = const MyHomePage();
+    screenView = RegisterAsistencia();
     super.initState();
   }
 
@@ -67,7 +68,11 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         });
       } else if (drawerIndex == DrawerIndex.Help) {
         setState(() {
-          screenView = HelpScreen();
+          screenView = RegisterAsistencia();
+        });
+      } else if (drawerIndex == DrawerIndex.Absences) {
+        setState(() {
+          screenView = AbsencesActivity();
         });
       } else if (drawerIndex == DrawerIndex.FeedBack) {
         setState(() {

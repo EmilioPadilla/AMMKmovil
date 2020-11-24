@@ -3,83 +3,97 @@ import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/asistencia_empleados/registrar_qr.dart';
 import '../design_course_app_theme.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:async';
+import '../api/apiResolver.dart';
+import './WorkedHours.dart';
 
-class EstadoCivil {
-  final int id;
-  final String descripcion;
+var _exitOrUpdate = 0;
+bool _stopRegister = false;
+var _botonRegistroText = "Registrar";
+var _idEmployee = 1;
 
-  EstadoCivil({this.id, this.descripcion});
+class WorkedHoursList extends StatelessWidget {
+  final List<WorkedHours> workedHours;
+  var horaIngreso;
+  var horaSalida;
 
-  factory EstadoCivil.fromJson(Map<String, dynamic> json) {
-    return EstadoCivil(
-      id: json['id'] as int,
-      descripcion: json['descripcion'] as String,
-    );
-  }
-}
-
-class ApiResolver {
-  String _baseUrl = 'http://10.0.2.2:8000/api';
-
-  ApiResolver();
-
-  List<EstadoCivil> parsePhotos(String responseBody) {
-    final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-
-    return parsed.map<EstadoCivil>((json) => EstadoCivil.fromJson(json)).toList();
-  }
-
-  Future<List<EstadoCivil>> httpGet(http.Client client, String api) async {
-    final response = await client.get(_baseUrl + "/" + api);
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      return parsePhotos(response.body);
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load response');
-    }
-  }
-}
-
-
-
-class EstadoCivilList extends StatelessWidget {
-  final List<EstadoCivil> civilstatus;
-  var result;
-
-  EstadoCivilList({Key key, this.civilstatus}) : super(key: key);
+  WorkedHoursList({Key key, this.workedHours}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (workedHours.length > 0) {
+      horaIngreso = workedHours[0].horaIngreso;
+      if (horaIngreso == null) {
+        horaIngreso = "No registrada";
+        _botonRegistroText = "Registrar entrada";
+      } else {
+        _botonRegistroText = "Registrar salida";
+        _exitOrUpdate = 1;
+      }
 
-    if (civilstatus[0] != null) {
-      result = civilstatus[0].descripcion;
+      if (workedHours[0].horaSalida != null) {
+        horaSalida = workedHours[0].horaSalida;
+        _botonRegistroText = "Dia laboral completado";
+        _stopRegister = true;
+      } else {
+        horaSalida = "No registrada";
+      }
     } else {
-      result = "No registrado";
+      horaIngreso = "No registrada";
+      horaSalida = "No registrada";
     }
+
+
     return Container(
+        child: Center (
         child: Text(
-            "Entrada: ${result}",
+            "\n\nEntrada: ${horaIngreso}"
+                "\n\n"
+                "Salida: ${horaSalida}",
          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         )
+        )
     );
   }
 }
 
-class HelpScreen extends StatefulWidget {
+class RegisterAsistencia extends StatefulWidget {
   @override
-  _HelpScreenState createState() => _HelpScreenState();
+  _RegistrarAsistenciaState createState() => _RegistrarAsistenciaState();
 }
 
-class _HelpScreenState extends State<HelpScreen> {
-  final api = ApiResolver();
+// Alert showed when user has register entrance and exit within same day
+showAlertDialog(BuildContext context) {
+  // set up the button
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Día laboral completado"),
+    content: Text("Has marcado la entrada y la salida de tu dia laboral."),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+class _RegistrarAsistenciaState extends State<RegisterAsistencia> {
+  final apiEmployees = ApiResolverEmployees();
 
   @override
   void initState() {
@@ -95,6 +109,7 @@ class _HelpScreenState extends State<HelpScreen> {
     String convertedDateTime =
         "Hoy es ${days[now.weekday-1]} \n${now.day.toString().padLeft(2, '0')}-${months[now.month-1]}-${now.year.toString()}";
     String hora = "${now.hour.toString()}:${now.minute.toString()}";
+
     return Container(
       color: AppTheme.nearlyWhite,
       child: SafeArea(
@@ -124,25 +139,14 @@ class _HelpScreenState extends State<HelpScreen> {
               ),
               Container(
                 padding: const EdgeInsets.only(top: 16),
-                child: FutureBuilder<List<EstadoCivil>>(
-                  future: api.httpGet(http.Client(), "employeeCivilStatus"),
+                child: FutureBuilder<List<WorkedHours>>(
+                  future: apiEmployees.getWorkedHoursByEmp(http.Client(), "WorkedHours/idEmployee", _idEmployee.toString()),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
                     return snapshot.hasData
-                        ? EstadoCivilList(civilstatus: snapshot.data)
+                        ? WorkedHoursList(workedHours: snapshot.data)
                         : Center(child: CircularProgressIndicator());
                   },
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 16),
-                child: const Text(
-                  'Salida: No registrada',
-                  // textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
                 ),
               ),
               Expanded(
@@ -164,11 +168,15 @@ class _HelpScreenState extends State<HelpScreen> {
                         ],
                       ),
                         child: RaisedButton(
-                          textColor:  Colors.white,
-                          color: DesignCourseAppTheme.nearlyBlue,
-                          child: Text('Registrar entrada', textAlign: TextAlign.center,),
+                          textColor: Colors.white,
+                          color: _stopRegister == true ? Colors.grey : DesignCourseAppTheme.nearlyBlue,
+                          child: Text(_botonRegistroText, textAlign: TextAlign.center,),
                           onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> RegistrarQR()));
+                            _stopRegister == true ?
+                            showAlertDialog(context) :
+                            // 0 = register entrance
+                            // 1 = register exit
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrarQR(_exitOrUpdate)));
                           },
                         )
                     ),

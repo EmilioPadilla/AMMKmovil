@@ -41,6 +41,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
         icon: Icon(Icons.qr_code_scanner),
       ),
       DrawerList(
+        index: DrawerIndex.Absences,
+        labelName: 'Ausencias',
+        // isAssetsImage: true,
+        // imageName: 'assets/images/supportIcon.png',
+        icon: Icon(Icons.cancel_schedule_send),
+      ),
+      DrawerList(
         index: DrawerIndex.QR,
         labelName: 'Generar código QR',
         // isAssetsImage: true,
@@ -309,7 +316,8 @@ enum DrawerIndex {
   NominaEmpleados,
   QR,
   MiHorario,
-  HorarioEmpleados
+  HorarioEmpleados,
+  Absences
 }
 
 class DrawerList {
