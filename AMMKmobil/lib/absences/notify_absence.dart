@@ -1,10 +1,9 @@
-import '../api/apiResolver.dart';
+import 'package:best_flutter_ui_templates/api/apiResolver.dart';
 import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:sweetalert/sweetalert.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'view_absences.dart';
 
 final _idEmployee = 1;
 
@@ -128,6 +127,7 @@ class _NotifyAbsence extends State<NotifyAbsence> {
 
 
                                   new Future.delayed(new Duration(seconds: 2),(){
+                                    Navigator.of(context).pop();
                                     Navigator.of(context).pop();
                                   });
                                 }

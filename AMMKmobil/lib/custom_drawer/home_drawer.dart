@@ -43,6 +43,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
         icon: Icon(Icons.cancel_schedule_send ),
       ),
       DrawerList(
+        index: DrawerIndex.AdminAbsences,
+        labelName: 'AusenciasAdmin',
+        // isAssetsImage: true,
+        // imageName: 'assets/images/supportIcon.png',
+        icon: Icon(Icons.cancel_schedule_send ),
+      ),
+      DrawerList(
         index: DrawerIndex.QR,
         labelName: 'Generar código QR',
         // isAssetsImage: true,
@@ -288,7 +295,8 @@ enum DrawerIndex {
   Testing,
   NominaEmpleados,
   QR,
-  Absences
+  Absences,
+  AdminAbsences
 }
 
 class DrawerList {

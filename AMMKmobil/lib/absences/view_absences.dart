@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import '../design_course_app_theme.dart';
-import '../api/apiResolver.dart';
-import 'absences.dart';
+import 'package:best_flutter_ui_templates/api/apiResolver.dart';
+import 'package:best_flutter_ui_templates/absences/absences.dart';
 import 'package:http/http.dart' as http;
 import 'notify_absence.dart';
 
@@ -10,8 +10,6 @@ final _idEmployee = 1;
 
 class AbsencesTable extends StatelessWidget {
   final List<Absences> absencesList;
-  bool _sortAsc = true;
-  int _sortColumnIndex;
 
   AbsencesTable({Key key, this.absencesList}) : super(key: key);
 
@@ -46,7 +44,7 @@ class AbsencesTable extends StatelessWidget {
                   child: Text("${absence.motivoAusencia ?? "No registrado"}"))),
               DataCell(Container(
                   // width: 50,
-                  child: absence.urlArchivo != '' || absence.urlArchivo == null ?
+                  child:  absence.urlArchivo != null && absence.urlArchivo != ''?
                   Text("${absence.urlArchivo }") :
                   RaisedButton(
                     color: DesignCourseAppTheme.nearlyBlue,
@@ -109,7 +107,7 @@ class _AbsencesWidgetState extends State<AbsencesActivity> {
                 Container(
                   padding: const EdgeInsets.only(top: 8),
                   child: Text(
-                    'Ausencias',
+                    'Mis ausencias',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
