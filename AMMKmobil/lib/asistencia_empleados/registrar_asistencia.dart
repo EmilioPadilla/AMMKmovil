@@ -21,7 +21,6 @@ class WorkedHoursList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (workedHours.length > 0) {
-
       horaIngreso = workedHours[0].horaIngreso;
       if (horaIngreso == null) {
         horaIngreso = "No registrada";
@@ -31,16 +30,12 @@ class WorkedHoursList extends StatelessWidget {
         _exitOrUpdate = 1;
       }
 
-
-
       if (workedHours[0].horaSalida != null) {
-        print("checar ${workedHours[0].horaSalida}");
         horaSalida = workedHours[0].horaSalida;
-        _botonRegistroText = "Dia Laboral completado";
+        _botonRegistroText = "Dia laboral completado";
         _stopRegister = true;
       } else {
         horaSalida = "No registrada";
-
       }
     } else {
       horaIngreso = "No registrada";
