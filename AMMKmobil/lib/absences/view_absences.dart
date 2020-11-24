@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import '../design_course_app_theme.dart';
 import '../api/apiResolver.dart';
 import 'absences.dart';
 import 'package:http/http.dart' as http;
+import 'notify_absence.dart';
 
 final _idEmployee = 1;
 
@@ -46,7 +46,7 @@ class AbsencesTable extends StatelessWidget {
                   child: Text("${absence.motivoAusencia ?? "No registrado"}"))),
               DataCell(Container(
                   // width: 50,
-                  child: absence.urlArchivo != '' ?
+                  child: absence.urlArchivo != '' || absence.urlArchivo == null ?
                   Text("${absence.urlArchivo }") :
                   RaisedButton(
                     color: DesignCourseAppTheme.nearlyBlue,
@@ -138,9 +138,7 @@ class _AbsencesWidgetState extends State<AbsencesActivity> {
                           color: DesignCourseAppTheme.nearlyBlue,
                           child: Text('Registrar ausencia', textAlign: TextAlign.center,),
                           onPressed: () {
-                            setState(() {
-
-                            });
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => NotifyAbsence()));
                           },
                         )
                     ),
