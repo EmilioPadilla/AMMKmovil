@@ -7,6 +7,8 @@ import 'package:best_flutter_ui_templates/asistencia_empleados/generar_qr.dart';
 import 'package:best_flutter_ui_templates/home_screen.dart';
 import 'package:best_flutter_ui_templates/invite_friend_screen.dart';
 import 'package:best_flutter_ui_templates/nomina_empleados.dart';
+import 'package:best_flutter_ui_templates/mi_horario.dart';
+import 'package:best_flutter_ui_templates/horario_empleados.dart';
 import 'package:flutter/material.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
@@ -14,7 +16,8 @@ class NavigationHomeScreen extends StatefulWidget {
   final String user;
   NavigationHomeScreen({Key key, @required this.user}) : super(key: key);
 
-  _NavigationHomeScreenState createState() => _NavigationHomeScreenState(user: user);
+  _NavigationHomeScreenState createState() =>
+      _NavigationHomeScreenState(user: user);
 }
 
 class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
@@ -42,10 +45,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
           backgroundColor: AppTheme.nearlyWhite,
           body: DrawerUserController(
             screenIndex: drawerIndex,
-            drawerWidth: MediaQuery
-                .of(context)
-                .size
-                .width * 0.75,
+            drawerWidth: MediaQuery.of(context).size.width * 0.75,
             onDrawerCall: (DrawerIndex drawerIndexdata) {
               changeIndex(drawerIndexdata);
               //callback from drawer for replace screen as user need with passing DrawerIndex(Enum index)
@@ -85,7 +85,15 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         setState(() {
           screenView = GenerarQr();
         });
-      }
+      } else if (drawerIndex == DrawerIndex.MiHorario) {
+        setState(() {
+          screenView = MiHorario();
+        });
+      } else if (drawerIndex == DrawerIndex.HorarioEmpleados) {
+        setState(() {
+          screenView = HorarioEmpleados();
+        });
       }
     }
   }
+}
