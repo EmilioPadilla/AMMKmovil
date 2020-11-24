@@ -1,4 +1,5 @@
 import '../asistencia_empleados/WorkedHours.dart';
+import '../Absences/absences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -65,6 +66,53 @@ class ApiResolverEmployees {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to load response');
+    }
+  }
+
+}
+
+class ApiResolverAbsences {
+
+  ApiResolverAbsences();
+
+  List<Absences> parseGetAbsences(String responseBody) {
+    final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+
+    return parsed.map<Absences>((json) => Absences.fromJson(json)).toList();
+  }
+
+  Future<List<Absences>> getAbsences(http.Client client, String api, String idEmployee) async {
+    final response = await client.get(apiUrl + "/" + api + "/" + idEmployee);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return parseGetAbsences(response.body);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load response');
+    }
+  }
+
+  Future<http.Response> registerAbsence(int idEmpl, String motivoAusencia, String fecha) async {
+    Map<String, String> headers = {'Content-Type' : 'application/json'};
+    Map json_body = {
+      'employees_id' : idEmpl ,
+      'motivoAusencia': motivoAusencia,
+      'fecha': fecha
+    };
+
+    var body = json.encode(json_body);
+    final response = await http.post(apiUrl+ "/Absences", headers: headers, body: body);
+    print("respuesta ${response.statusCode}");
+    if (response.statusCode == 200) {
+      // If server returns an OK response, parse the JSON.
+      // return Post.fromJson(json.decode(response.body));
+      // print(response.body);
+      return json.decode(response.body);
+    } else {
+      // If that response was not OK, throw an error.
+      throw Exception(response.body);
     }
   }
 
