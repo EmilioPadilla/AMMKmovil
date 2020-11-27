@@ -9,7 +9,7 @@ import './WorkedHours.dart';
 var _exitOrUpdate = 0;
 bool _stopRegister = false;
 var _botonRegistroText = "Registrar";
-var _idEmployee = 1;
+var _idEmployee = 2;
 
 class WorkedHoursList extends StatelessWidget {
   final List<WorkedHours> workedHours;
@@ -42,20 +42,17 @@ class WorkedHoursList extends StatelessWidget {
       horaSalida = "No registrada";
     }
 
-
     return Container(
-        child: Center (
-        child: Text(
-            "\n\nEntrada: ${horaIngreso}"
-                "\n\n"
-                "Salida: ${horaSalida}",
-         style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        )
-        )
-    );
+        child: Center(
+            child: Text(
+      "\n\nEntrada: ${horaIngreso}"
+      "\n\n"
+      "Salida: ${horaSalida}",
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
+    )));
   }
 }
 
@@ -102,12 +99,33 @@ class _RegistrarAsistenciaState extends State<RegisterAsistencia> {
 
   @override
   Widget build(BuildContext context) {
-    List months = ['Enero', 'Febrero','Marzo', 'Abril',  'Mayo','Junio','Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    List days = ['lunes','martes', 'miércoles', 'jueves', 'viernes', 'sábado','domingo'];
+    List months = [
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre'
+    ];
+    List days = [
+      'lunes',
+      'martes',
+      'miércoles',
+      'jueves',
+      'viernes',
+      'sábado',
+      'domingo'
+    ];
     DateTime now = DateTime.now();
 
     String convertedDateTime =
-        "Hoy es ${days[now.weekday-1]} \n${now.day.toString().padLeft(2, '0')}-${months[now.month-1]}-${now.year.toString()}";
+        "Hoy es ${days[now.weekday - 1]} \n${now.day.toString().padLeft(2, '0')}-${months[now.month - 1]}-${now.year.toString()}";
     String hora = "${now.hour.toString()}:${now.minute.toString()}";
 
     return Container(
@@ -140,7 +158,8 @@ class _RegistrarAsistenciaState extends State<RegisterAsistencia> {
               Container(
                 padding: const EdgeInsets.only(top: 16),
                 child: FutureBuilder<List<WorkedHours>>(
-                  future: apiEmployees.getWorkedHoursByEmp(http.Client(), "WorkedHours/idEmployee", _idEmployee.toString()),
+                  future: apiEmployees.getWorkedHoursByEmp(http.Client(),
+                      "WorkedHours/idEmployee", _idEmployee.toString()),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
                     return snapshot.hasData
@@ -154,32 +173,41 @@ class _RegistrarAsistenciaState extends State<RegisterAsistencia> {
                   padding: const EdgeInsets.all(10.0),
                   child: Center(
                     child: Container(
-                      width: 140,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: DesignCourseAppTheme.nearlyBlue,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(4.0)),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                              color: Colors.grey.withOpacity(0.6),
-                              offset: const Offset(4, 4),
-                              blurRadius: 8.0),
-                        ],
-                      ),
+                        width: 140,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: DesignCourseAppTheme.nearlyBlue,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4.0)),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: Colors.grey.withOpacity(0.6),
+                                offset: const Offset(4, 4),
+                                blurRadius: 8.0),
+                          ],
+                        ),
                         child: RaisedButton(
                           textColor: Colors.white,
-                          color: _stopRegister == true ? Colors.grey : DesignCourseAppTheme.nearlyBlue,
-                          child: Text(_botonRegistroText, textAlign: TextAlign.center,),
-                          onPressed: (){
-                            _stopRegister == true ?
-                            showAlertDialog(context) :
-                            // 0 = register entrance
-                            // 1 = register exit
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrarQR(_exitOrUpdate)));
+                          color: _stopRegister == true
+                              ? Colors.grey
+                              : DesignCourseAppTheme.nearlyBlue,
+                          child: Text(
+                            _botonRegistroText,
+                            textAlign: TextAlign.center,
+                          ),
+                          onPressed: () {
+                            _stopRegister == true
+                                ? showAlertDialog(context)
+                                :
+                                // 0 = register entrance
+                                // 1 = register exit
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RegistrarQR(_exitOrUpdate)));
                           },
-                        )
-                    ),
+                        )),
                   ),
                 ),
               )
