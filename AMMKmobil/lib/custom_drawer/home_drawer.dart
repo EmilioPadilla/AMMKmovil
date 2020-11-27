@@ -55,7 +55,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
         icon: Icon(Icons.qr_code_scanner),
       ),
       DrawerList(
-        index: DrawerIndex.FeedBack,
+        index: DrawerIndex.MiNomina,
         labelName: 'Mi nomina',
         icon: Icon(Icons.attach_money),
       ),
@@ -307,7 +307,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
 enum DrawerIndex {
   HOME,
-  FeedBack,
+  MiNomina,
   Help,
   Share,
   About,
