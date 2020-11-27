@@ -1,7 +1,7 @@
 import '../asistencia_empleados/WorkedHours.dart';
 import '../asistencia_empleados/FutureHours.dart';
 import '../nomina_empleados/Payrolls.dart';
-import '../Absences/absences.dart';
+import '../absences/absences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -109,13 +109,27 @@ class ApiResolverAbsences {
 
   List<Absences> parseGetAbsences(String responseBody) {
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-
     return parsed.map<Absences>((json) => Absences.fromJson(json)).toList();
   }
 
   Future<List<Absences>> getAbsences(
       http.Client client, String api, String idEmployee) async {
     final response = await client.get(apiUrl + "/" + api + "/" + idEmployee);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return parseGetAbsences(response.body);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load response');
+    }
+  }
+
+  Future<List<Absences>> getAdminAbsences(
+      http.Client client, String api) async {
+    final response = await client.get(apiUrl + "/" + api);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.

@@ -5,6 +5,7 @@ import 'package:best_flutter_ui_templates/nomina_empleados/mi_nomina.dart';
 import 'package:best_flutter_ui_templates/asistencia_empleados/registrar_asistencia.dart';
 import 'package:best_flutter_ui_templates/asistencia_empleados/generar_qr.dart';
 import 'package:best_flutter_ui_templates/Absences/view_absences.dart';
+import 'package:best_flutter_ui_templates/admin/admin_view_absences.dart';
 import 'package:best_flutter_ui_templates/home_screen.dart';
 import 'package:best_flutter_ui_templates/invite_friend_screen.dart';
 import 'package:best_flutter_ui_templates/nomina_empleados/nomina_empleados.dart';
@@ -97,6 +98,10 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       } else if (drawerIndex == DrawerIndex.HorarioEmpleados) {
         setState(() {
           screenView = HorarioEmpleados();
+        });
+      } else if (drawerIndex == DrawerIndex.AdminAbsences) {
+        setState(() {
+          screenView = AbsencesActivityAdmin();
         });
       }
     }
