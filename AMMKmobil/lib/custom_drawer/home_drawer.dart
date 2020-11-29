@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import '../cuentas/login.dart';
 
 class HomeDrawer extends StatefulWidget {
-  const HomeDrawer({Key key, this.screenIndex, this.iconAnimationController, this.callBackIndex}) : super(key: key);
+  const HomeDrawer(
+      {Key key,
+      this.screenIndex,
+      this.iconAnimationController,
+      this.callBackIndex})
+      : super(key: key);
 
   final AnimationController iconAnimationController;
   final screenIndex;
@@ -40,14 +45,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
         labelName: 'Ausencias',
         // isAssetsImage: true,
         // imageName: 'assets/images/supportIcon.png',
-        icon: Icon(Icons.cancel_schedule_send ),
+        icon: Icon(Icons.cancel_schedule_send),
       ),
       DrawerList(
         index: DrawerIndex.AdminAbsences,
         labelName: 'AusenciasAdmin',
         // isAssetsImage: true,
         // imageName: 'assets/images/supportIcon.png',
-        icon: Icon(Icons.cancel_schedule_send ),
+        icon: Icon(Icons.cancel_schedule_send),
       ),
       DrawerList(
         index: DrawerIndex.QR,
@@ -57,12 +62,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
         icon: Icon(Icons.qr_code_scanner),
       ),
       DrawerList(
-        index: DrawerIndex.FeedBack,
+        index: DrawerIndex.MiNomina,
         labelName: 'Mi nomina',
         icon: Icon(Icons.attach_money),
       ),
       DrawerList(
-        index: DrawerIndex.Invite,
+        index: DrawerIndex.MiHorario,
         labelName: 'Mi horario',
         icon: Icon(Icons.schedule),
       ),
@@ -70,6 +75,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
         index: DrawerIndex.NominaEmpleados,
         labelName: 'Nomina Empleados',
         icon: Icon(Icons.attach_money),
+      ),
+      DrawerList(
+        index: DrawerIndex.HorarioEmpleados,
+        labelName: 'Horario Empleados',
+        icon: Icon(Icons.schedule),
       ),
       DrawerList(
         index: DrawerIndex.Share,
@@ -100,10 +110,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     animation: widget.iconAnimationController,
                     builder: (BuildContext context, Widget child) {
                       return ScaleTransition(
-                        scale: AlwaysStoppedAnimation<double>(1.0 - (widget.iconAnimationController.value) * 0.2),
+                        scale: AlwaysStoppedAnimation<double>(
+                            1.0 - (widget.iconAnimationController.value) * 0.2),
                         child: RotationTransition(
-                          turns: AlwaysStoppedAnimation<double>(Tween<double>(begin: 0.0, end: 24.0)
-                                  .animate(CurvedAnimation(parent: widget.iconAnimationController, curve: Curves.fastOutSlowIn))
+                          turns: AlwaysStoppedAnimation<double>(Tween<double>(
+                                      begin: 0.0, end: 24.0)
+                                  .animate(CurvedAnimation(
+                                      parent: widget.iconAnimationController,
+                                      curve: Curves.fastOutSlowIn))
                                   .value /
                               360),
                           child: Container(
@@ -111,11 +125,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             width: 120,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-
                             ),
                             child: ClipRRect(
-                              borderRadius: const BorderRadius.all(Radius.circular(60.0)),
-                              child: Image.asset('assets/images/logoPaloma.png'),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(60.0)),
+                              child:
+                                  Image.asset('assets/images/logoPaloma.png'),
                             ),
                           ),
                         ),
@@ -176,10 +191,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   color: Colors.red,
                 ),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Login())
-                  );
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Login()));
                 },
               ),
               SizedBox(
@@ -229,9 +242,15 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       ? Container(
                           width: 24,
                           height: 24,
-                          child: Image.asset(listData.imageName, color: widget.screenIndex == listData.index ? Colors.blue : AppTheme.nearlyBlack),
+                          child: Image.asset(listData.imageName,
+                              color: widget.screenIndex == listData.index
+                                  ? Colors.blue
+                                  : AppTheme.nearlyBlack),
                         )
-                      : Icon(listData.icon.icon, color: widget.screenIndex == listData.index ? Colors.blue : AppTheme.nearlyBlack),
+                      : Icon(listData.icon.icon,
+                          color: widget.screenIndex == listData.index
+                              ? Colors.blue
+                              : AppTheme.nearlyBlack),
                   const Padding(
                     padding: EdgeInsets.all(4.0),
                   ),
@@ -240,7 +259,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
-                      color: widget.screenIndex == listData.index ? Colors.blue : AppTheme.nearlyBlack,
+                      color: widget.screenIndex == listData.index
+                          ? Colors.blue
+                          : AppTheme.nearlyBlack,
                     ),
                     textAlign: TextAlign.left,
                   ),
@@ -253,11 +274,17 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     builder: (BuildContext context, Widget child) {
                       return Transform(
                         transform: Matrix4.translationValues(
-                            (MediaQuery.of(context).size.width * 0.75 - 64) * (1.0 - widget.iconAnimationController.value - 1.0), 0.0, 0.0),
+                            (MediaQuery.of(context).size.width * 0.75 - 64) *
+                                (1.0 -
+                                    widget.iconAnimationController.value -
+                                    1.0),
+                            0.0,
+                            0.0),
                         child: Padding(
                           padding: EdgeInsets.only(top: 8, bottom: 8),
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.75 - 64,
+                            width:
+                                MediaQuery.of(context).size.width * 0.75 - 64,
                             height: 46,
                             decoration: BoxDecoration(
                               color: Colors.blue.withOpacity(0.2),
@@ -287,7 +314,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
 enum DrawerIndex {
   HOME,
-  FeedBack,
+  MiNomina,
   Help,
   Share,
   About,
@@ -295,6 +322,8 @@ enum DrawerIndex {
   Testing,
   NominaEmpleados,
   QR,
+  MiHorario,
+  HorarioEmpleados,
   Absences,
   AdminAbsences
 }
