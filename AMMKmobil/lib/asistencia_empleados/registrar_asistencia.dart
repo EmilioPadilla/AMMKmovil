@@ -95,6 +95,7 @@ class _RegistrarAsistenciaState extends State<RegisterAsistencia> {
   @override
   void initState() {
     super.initState();
+
   }
 
   @override

@@ -6,6 +6,8 @@ import '../design_course_app_theme.dart';
 import 'dart:async';
 import '../api/apiResolver.dart';
 
+final _idEmployee = 1;
+
 class RegistrarQR extends StatefulWidget {
   final int exitOrUpdate;
   const RegistrarQR(this.exitOrUpdate);
@@ -26,7 +28,7 @@ class _RegistrarQRState extends State<RegistrarQR> {
     if (widget.exitOrUpdate == 0) {
       api.registerEntrance(1, now.toString());
     } else {
-      api.registerExit('2', now.toString());
+      api.registerExit('1', now.toString());
     }
 
     print(widget.exitOrUpdate);

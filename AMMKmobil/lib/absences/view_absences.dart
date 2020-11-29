@@ -29,8 +29,6 @@ class AbsencesTable extends StatelessWidget {
             label: Text('Fecha',style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         DataColumn(label: Text('Motivo',style: TextStyle(fontWeight: FontWeight.bold))),
-        DataColumn(label: Text('Comprobante',style: TextStyle(fontWeight: FontWeight.bold)),
-          tooltip: "Comprobante de ausencia",),
       ],
       rows: absencesList
           .map(
@@ -42,23 +40,6 @@ class AbsencesTable extends StatelessWidget {
               DataCell(Container(
                   width: 200, //SET width
                   child: Text("${absence.motivoAusencia ?? "No registrado"}"))),
-              DataCell(Container(
-                  // width: 50,
-                  child:  absence.urlArchivo != null && absence.urlArchivo != ''?
-                  Text("${absence.urlArchivo }") :
-                  RaisedButton(
-                    color: DesignCourseAppTheme.nearlyBlue,
-                    child:  Icon(
-                      Icons.add_rounded,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    onPressed: (){
-                      // Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrarQR(_exitOrUpdate)));
-                    },
-                  ),
-              ),
-              )
             ]),
       )
           .toList(),

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
-String apiUrl = 'http://10.0.2.2:8000/api';
+String apiUrl = 'http://test-api.ejsanchez.com.mx/api';
 
 class ApiResolverEmployees {
   ApiResolverEmployees();
@@ -75,7 +75,7 @@ class ApiResolverEmployees {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load response');
+      throw Exception('getWorkedHoursByEmp Failed to load response');
     }
   }
 
@@ -99,7 +99,7 @@ class ApiResolverEmployees {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load response');
+      throw Exception('getFutureHoursByEmp Failed to load response');
     }
   }
 }
@@ -122,7 +122,7 @@ class ApiResolverAbsences {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load response');
+      throw Exception('getAbsences Failed to load response');
     }
   }
 
@@ -137,7 +137,7 @@ class ApiResolverAbsences {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load response');
+      throw Exception('getAdminAbsences Failed to load response');
     }
   }
 
@@ -190,7 +190,7 @@ class ApiResolverPayrolls {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load response');
+      throw Exception('getPayrolls Failed to load response');
     }
   }
 }

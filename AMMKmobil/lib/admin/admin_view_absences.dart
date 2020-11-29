@@ -14,7 +14,6 @@ class AbsencesTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(absencesList[0].urlArchivo);
     return  Padding (
         padding: const EdgeInsets.only(top: 16),
         child: Center(
@@ -31,9 +30,9 @@ class AbsencesTable extends StatelessWidget {
                   DataColumn(
                     label: Text('Fecha',style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
-                  DataColumn(label: Text('Motivo',style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataColumn(label: Text('Comprobante',style: TextStyle(fontWeight: FontWeight.bold)),
-                    tooltip: "Comprobante de ausencia",),
+                  DataColumn(
+                    label: Text('Motivo',style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
                 ],
                 rows: absencesList
                     .map(
@@ -49,23 +48,6 @@ class AbsencesTable extends StatelessWidget {
                         DataCell(Container(
                             width: 200, //SET width
                             child: Text("${absence.motivoAusencia ?? "No registrado"}"))),
-                        DataCell(Container(
-                          // width: 40,
-                          child:  absence.urlArchivo != null && absence.urlArchivo != '' ?
-                          Text("${absence.urlArchivo }") :
-                          RaisedButton(
-                            color: DesignCourseAppTheme.nearlyBlue,
-                            child:  Icon(
-                              Icons.add_rounded,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                            onPressed: (){
-                              // Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrarQR(_exitOrUpdate)));
-                            },
-                          ),
-                        ),
-                        )
                       ]),
                 )
                     .toList(),
