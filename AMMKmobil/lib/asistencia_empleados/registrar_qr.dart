@@ -1,75 +1,86 @@
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:flutter/material.dart';
-
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import '../design_course_app_theme.dart';
+import 'dart:async';
+import '../api/apiResolver.dart';
 
 class RegistrarQR extends StatefulWidget {
+  final int exitOrUpdate;
+  const RegistrarQR(this.exitOrUpdate);
   @override
   _RegistrarQRState createState() => _RegistrarQRState();
 }
 
+
+
 class _RegistrarQRState extends State<RegistrarQR> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
+  String qrCodeResult;
+  bool backCamera = true;
+  DateTime now = DateTime.now();
+  ApiResolverEmployees api = new ApiResolverEmployees();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.nearlyWhite,
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          backgroundColor: AppTheme.nearlyWhite,
-          body: Column(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).padding.top,
-                    left: 16,
-                    right: 16),
-                child: Image.asset('assets/images/LOGO_HOGARES_AMMK.jpg'),
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 8),
-                child: Text(
-                  "Capturar código",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: DesignCourseAppTheme.nearlyBlue,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 16),
-                child: const Text(
-                  '\n\n\nEntrada: No registrada',
-                  // textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 16),
-                child: const Text(
-                  'Salida: No registrada',
-                  // textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
+    print(now.toString());
+    if (widget.exitOrUpdate == 0) {
+      api.registerEntrance(1, now.toString());
+    } else {
+      api.registerExit('2', now.toString());
+    }
+
+    print(widget.exitOrUpdate);
+
+
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Escanear con: " + (backCamera ? "Frontal" : "Trasera")),
+          backgroundColor: DesignCourseAppTheme.nearlyBlue,
+          actions: <Widget>[
+            IconButton(
+              icon: backCamera
+                  ? Icon(Ionicons.ios_reverse_camera)
+                  : Icon(Icons.camera),
+              onPressed: () {
+                setState(() {
+                  backCamera = !backCamera;
+                  camera = backCamera ? 1 : -1;
+                });
+              },
+            ),
+            IconButton(
+              icon: Icon(MaterialCommunityIcons.qrcode_scan),
+              onPressed: () {
+                _scan();
+              },
+            )
+          ],
         ),
-      ),
+
+        body: Column(
+          children: <Widget>[
+            Container (
+              child: Text(
+                (qrCodeResult == null) || (qrCodeResult == "")
+                    ? "Escanee el código dado por el administrador"
+                    : "Resultado:" + qrCodeResult,
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
+              ),
+            ),
+          ],
+        ),
     );
   }
+  Future<void> _scan() async {
+    ScanResult codeSanner = await BarcodeScanner.scan(
+      options: ScanOptions(
+        useCamera: camera,
+      ),
+    );
+    setState(() {
+      qrCodeResult = codeSanner.rawContent;
+      print(qrCodeResult);
+    });
+  }
 }
+int camera = 1;

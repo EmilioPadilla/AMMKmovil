@@ -63,9 +63,11 @@ class Login extends StatefulWidget{
 
 class _State extends State<Login> {
   final _formKey = GlobalKey<FormState>();
+
   Future<Cuenta> _futureAlbum;
   String idRol;
   String idCuenta;
+
   String _password;
   String _username;
   TextEditingController nameController = TextEditingController();
@@ -81,11 +83,14 @@ class _State extends State<Login> {
         body: Container(
             padding: EdgeInsets.all(20),
             child: Form(          // <= NEW
+
                 key: _formKey,
+
                 child: ListView(
                   children: <Widget>[
                     Container(
                       child: Image.asset('assets/images/LogoAmmk.jpg',
+
                         width: 400,
                         height: 250,
                       ),
@@ -153,5 +158,6 @@ class _State extends State<Login> {
 
                   ],
                 ))) );
+
   }
 }
