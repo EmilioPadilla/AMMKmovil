@@ -10,10 +10,16 @@ import 'package:flutter/material.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
   @override
-  _NavigationHomeScreenState createState() => _NavigationHomeScreenState();
+  final  user;
+
+  NavigationHomeScreen({Key key, @required this.user, }) : super(key: key);
+  _NavigationHomeScreenState createState() => _NavigationHomeScreenState(user: user);
 }
 
 class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
+  final user;
+
+  _NavigationHomeScreenState({Key key, @required this.user, });
   Widget screenView;
   DrawerIndex drawerIndex;
 
@@ -21,12 +27,15 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   void initState() {
     drawerIndex = DrawerIndex.HOME;
     screenView = const MyHomePage();
+    print (user[0]);
+    print (user[1]);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+
       color: AppTheme.nearlyWhite,
       child: SafeArea(
         top: false,

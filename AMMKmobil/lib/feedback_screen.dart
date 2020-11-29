@@ -74,7 +74,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   ),
                   Container(
                       height:50,
-                      padding: EdgeInsets.fromLTRB(200,0,100,10),
+                      padding: EdgeInsets.fromLTRB(100,0,100,10),
                       child: RaisedButton(
                         textColor:  Colors.white,
                         color:Colors.blueAccent,

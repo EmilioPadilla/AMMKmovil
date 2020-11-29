@@ -1,5 +1,6 @@
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:best_flutter_ui_templates/cuentas/login.dart';
 
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer({Key key, this.screenIndex, this.iconAnimationController, this.callBackIndex}) : super(key: key);
@@ -153,7 +154,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Icons.power_settings_new,
                   color: Colors.red,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login())
+                  );
+                },
               ),
               SizedBox(
                 height: MediaQuery.of(context).padding.bottom,
