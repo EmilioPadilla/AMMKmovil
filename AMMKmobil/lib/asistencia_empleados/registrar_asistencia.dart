@@ -38,8 +38,10 @@ class WorkedHoursList extends StatelessWidget {
         horaSalida = "No registrada";
       }
     } else {
-      horaIngreso = "No registrada";
-      horaSalida = "No registrada";
+      horaIngreso = "Registrada";
+      horaSalida = "Registrada";
+      _botonRegistroText = "Dia laboral completado";
+      _stopRegister = true;
     }
 
     return Container(
