@@ -12,19 +12,24 @@ class ApiResolverEmployees {
   ApiResolverEmployees();
 
   //Function to register entrance from employee
-  Future<http.Response> registerEntrance(int idEmpl, String horaEntrada) async {
+  Future<http.Response> registerEntrance(
+      int idEmpl, String fecha, String horaEntrada) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
-    Map json_body = {'employees_id': idEmpl, 'horaIngreso': horaEntrada};
+    Map jsonBody = {
+      'employees_id': idEmpl,
+      'fecha': fecha,
+      'horaIngreso': horaEntrada
+    };
 
-    var body = json.encode(json_body);
-    final response =
-        await http.post(apiUrl + "/WorkedHours", headers: headers, body: body);
+    var body = json.encode(jsonBody);
+    final response = await http.post(apiUrl + "/attendanceArrival",
+        headers: headers, body: body);
     // print("respuesta ${response.statusCode}");
     if (response.statusCode == 200) {
       // If server returns an OK response, parse the JSON.
       // return Post.fromJson(json.decode(response.body));
-      // print(response.body);
-      return json.decode(response.body);
+      print(response.body);
+      //return json.decode(response.body);
     } else {
       // If that response was not OK, throw an error.
       throw Exception(response.body);
@@ -33,16 +38,20 @@ class ApiResolverEmployees {
 
   //Function to register exit from employee
   Future<http.Response> registerExit(
-      String idEntrance, String horaSalida) async {
+      int idEmpl, String fecha, String horaSalida) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
-    Map json_body = {'horaSalida': horaSalida};
-    var body = json.encode(json_body);
-    final response = await http.put(apiUrl + "/WorkedHours/" + idEntrance,
+    Map jsonBody = {
+      'idEmployees': idEmpl,
+      'fecha': fecha,
+      'horaSalida': horaSalida
+    };
+    var body = json.encode(jsonBody);
+    final response = await http.post(apiUrl + "/attendanceExit",
         headers: headers, body: body);
     if (response.statusCode == 200) {
       // If server returns an OK response, parse the JSON.
       // return Post.fromJson(json.decode(response.body));
-      return json.decode(response.body);
+      // return json.decode(response.body);
     } else {
       // If that response was not OK, throw an error.
       throw Exception(response.body);
@@ -65,6 +74,20 @@ class ApiResolverEmployees {
         .toList();
   }
 
+  Future<List<WorkedHours>> getClosestShiftByEmp(
+      http.Client client, String api, String idEmployee) async {
+    final response = await client.get(apiUrl + "/" + api + "/" + idEmployee);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return parseGetWorkedHours(response.body);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load response');
+    }
+  }
+
   Future<List<WorkedHours>> getWorkedHoursByEmp(
       http.Client client, String api, String idEmployee) async {
     final response = await client.get(apiUrl + "/" + api + "/" + idEmployee);
@@ -82,12 +105,12 @@ class ApiResolverEmployees {
   Future<List<FutureHours>> getFutureHoursByEmp(http.Client client,
       String startDate, String endDate, String idEmployee) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
-    Map json_body = {
+    Map jsonBody = {
       'idEmployees': idEmployee,
       'startDate': startDate,
       'endDate': endDate
     };
-    var body = json.encode(json_body);
+    var body = json.encode(jsonBody);
 
     final response = await client.post(apiUrl + "/employeesShifts/future",
         headers: headers, body: body);
@@ -144,13 +167,13 @@ class ApiResolverAbsences {
   Future<http.Response> registerAbsence(
       int idEmpl, String motivoAusencia, String fecha) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
-    Map json_body = {
+    Map jsonBody = {
       'employees_id': idEmpl,
       'motivoAusencia': motivoAusencia,
       'fecha': fecha
     };
 
-    var body = json.encode(json_body);
+    var body = json.encode(jsonBody);
     final response =
         await http.post(apiUrl + "/Absences", headers: headers, body: body);
     print("respuesta ${response.statusCode}");
@@ -178,8 +201,8 @@ class ApiResolverPayrolls {
   Future<List<Payrolls>> getPayrolls(
       http.Client client, String idEmployees) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
-    Map json_body = {'idEmployees': idEmployees};
-    var body = json.encode(json_body);
+    Map jsonBody = {'idEmployees': idEmployees};
+    var body = json.encode(jsonBody);
 
     final response =
         await client.post(apiUrl + "/payrolls", headers: headers, body: body);
