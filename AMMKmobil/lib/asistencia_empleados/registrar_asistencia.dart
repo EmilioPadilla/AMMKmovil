@@ -38,8 +38,10 @@ class WorkedHoursList extends StatelessWidget {
         horaSalida = "No registrada";
       }
     } else {
-      horaIngreso = "No registrada";
-      horaSalida = "No registrada";
+      horaIngreso = "Registrada";
+      horaSalida = "Registrada";
+      _botonRegistroText = "Dia laboral completado";
+      _stopRegister = true;
     }
 
     return Container(
@@ -158,8 +160,8 @@ class _RegistrarAsistenciaState extends State<RegisterAsistencia> {
               Container(
                 padding: const EdgeInsets.only(top: 16),
                 child: FutureBuilder<List<WorkedHours>>(
-                  future: apiEmployees.getWorkedHoursByEmp(http.Client(),
-                      "WorkedHours/idEmployee", _idEmployee.toString()),
+                  future: apiEmployees.getClosestShiftByEmp(
+                      http.Client(), "closestShift", _idEmployee.toString()),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
                     return snapshot.hasData

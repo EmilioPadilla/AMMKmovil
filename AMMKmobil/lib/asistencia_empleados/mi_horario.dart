@@ -50,11 +50,14 @@ class MyWorkedHoursTable extends StatelessWidget {
                 rows: workedHours
                     .map(
                       (row) => DataRow(cells: [
-                        DataCell(Text("${row.horaIngreso.split(" ")[0]}")),
-                        DataCell(Text("${row.horaIngreso.split(" ")[1]}")),
-                        DataCell(Text("${row.horaSalida.split(" ")[1]}")),
-                        DataCell(Text("${row.minutosTarde ?? 0}")),
-                        DataCell(Text("${row.pago}")),
+                        DataCell(Text("${row.fecha}")),
+                        DataCell(Text(
+                            "${row.horaIngreso != null ? row.horaIngreso.split(" ")[1] : ""}")),
+                        DataCell(Text(
+                            "${row.horaSalida != null ? row.horaSalida.split(" ")[1] : ""}")),
+                        DataCell(Text(
+                            "${row.horaIngreso != null ? row.minutosTarde : ""}")),
+                        DataCell(Text("${row.pago ?? 0}")),
                       ]),
                     )
                     .toList(),
