@@ -25,15 +25,11 @@ Future<Cuenta> createAlbum(String username, String password) async {
     IdC = 0;
     IdR = 0;
     if (response.body == "0") {
-      final jsonresponse = json.decode(response.body);
       print("Error 0");
       userError = 1;
-      return Cuenta.fromJson(jsonresponse);
     } else if (response.body == "-1") {
-      final jsonresponse = json.decode(response.body);
       print("Error -1");
       passError = 1;
-      return Cuenta.fromJson(jsonresponse);
     } else {
       final jsonresponse = json.decode(response.body);
       print(jsonresponse[0]);
