@@ -11,7 +11,7 @@ var IdE;
 
 Future<Cuenta> createAlbum(String username, String password) async {
   final http.Response response = await http.post(
-    'http://test-api.ejsanchez.com.mx/api/account/login/confirmation',
+    'http://api.gestionammk.com/api/account/login/confirmation',
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
