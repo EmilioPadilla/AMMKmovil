@@ -15,16 +15,23 @@ import 'package:flutter/material.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
   @override
-  final  user;
+  final user;
 
-  NavigationHomeScreen({Key key, @required this.user, }) : super(key: key);
-  _NavigationHomeScreenState createState() => _NavigationHomeScreenState(user: user);
+  NavigationHomeScreen({
+    Key key,
+    @required this.user,
+  }) : super(key: key);
+  _NavigationHomeScreenState createState() =>
+      _NavigationHomeScreenState(user: user);
 }
 
 class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   final user;
 
-  _NavigationHomeScreenState({Key key, @required this.user, });
+  _NavigationHomeScreenState({
+    Key key,
+    @required this.user,
+  });
 
   Widget screenView;
   DrawerIndex drawerIndex;
@@ -34,10 +41,8 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
     drawerIndex = DrawerIndex.HOME;
 
     screenView = const MyHomePage();
-    print (user[0]);
-    print (user[1]);
 
-    screenView = RegisterAsistencia();
+    screenView = RegisterAsistencia(user: this.user);
 
     super.initState();
   }
@@ -46,7 +51,6 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   Widget build(BuildContext context) {
     print(user);
     return Container(
-
       color: AppTheme.nearlyWhite,
       child: SafeArea(
         top: false,
@@ -54,15 +58,15 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         child: Scaffold(
           backgroundColor: AppTheme.nearlyWhite,
           body: DrawerUserController(
-            screenIndex: drawerIndex,
-            drawerWidth: MediaQuery.of(context).size.width * 0.75,
-            onDrawerCall: (DrawerIndex drawerIndexdata) {
-              changeIndex(drawerIndexdata);
-              //callback from drawer for replace screen as user need with passing DrawerIndex(Enum index)
-            },
-            screenView: screenView,
-            //we replace screen view as we need on navigate starting screens like MyHomePage, HelpScreen, FeedbackScreen, etc...
-          ),
+              screenIndex: drawerIndex,
+              drawerWidth: MediaQuery.of(context).size.width * 0.75,
+              onDrawerCall: (DrawerIndex drawerIndexdata) {
+                changeIndex(drawerIndexdata);
+                //callback from drawer for replace screen as user need with passing DrawerIndex(Enum index)
+              },
+              screenView: screenView,
+              //we replace screen view as we need on navigate starting screens like MyHomePage, HelpScreen, FeedbackScreen, etc...
+              user: this.user),
         ),
       ),
     );
@@ -77,15 +81,15 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         });
       } else if (drawerIndex == DrawerIndex.Help) {
         setState(() {
-          screenView = RegisterAsistencia();
+          screenView = RegisterAsistencia(user: this.user);
         });
       } else if (drawerIndex == DrawerIndex.Absences) {
         setState(() {
-          screenView = AbsencesActivity();
+          screenView = AbsencesActivity(user: this.user);
         });
       } else if (drawerIndex == DrawerIndex.MiNomina) {
         setState(() {
-          screenView = MiNomina();
+          screenView = MiNomina(user: this.user);
         });
       } else if (drawerIndex == DrawerIndex.Invite) {
         setState(() {
@@ -101,7 +105,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         });
       } else if (drawerIndex == DrawerIndex.MiHorario) {
         setState(() {
-          screenView = MiHorario();
+          screenView = MiHorario(user: this.user);
         });
       } else if (drawerIndex == DrawerIndex.HorarioEmpleados) {
         setState(() {
@@ -109,7 +113,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         });
       } else if (drawerIndex == DrawerIndex.AdminAbsences) {
         setState(() {
-          screenView = AbsencesActivityAdmin();
+          screenView = AbsencesActivityAdmin(user: this.user);
         });
       }
     }

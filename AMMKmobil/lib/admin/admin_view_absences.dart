@@ -5,8 +5,6 @@ import 'package:best_flutter_ui_templates/api/apiResolver.dart';
 import 'package:best_flutter_ui_templates/absences/absences.dart';
 import 'package:http/http.dart' as http;
 
-final _idEmployee = 1;
-
 class AbsencesTable extends StatelessWidget {
   final List<Absences> absencesList;
 
@@ -15,77 +13,92 @@ class AbsencesTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(absencesList[0].urlArchivo);
-    return  Padding (
+    return Padding(
         padding: const EdgeInsets.only(top: 16),
         child: Center(
           child: Container(
-
-            child:
-            SingleChildScrollView(
+            child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: DataTable(
                 columns: [
                   DataColumn(
-                    label: Text('Empleado',style: TextStyle(fontWeight: FontWeight.bold)),
+                    label: Text('Empleado',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                   DataColumn(
-                    label: Text('Fecha',style: TextStyle(fontWeight: FontWeight.bold)),
+                    label: Text('Fecha',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
-                  DataColumn(label: Text('Motivo',style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataColumn(label: Text('Comprobante',style: TextStyle(fontWeight: FontWeight.bold)),
-                    tooltip: "Comprobante de ausencia",),
+                  DataColumn(
+                      label: Text('Motivo',
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(
+                    label: Text('Comprobante',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    tooltip: "Comprobante de ausencia",
+                  ),
                 ],
                 rows: absencesList
                     .map(
-                      (absence) => DataRow(
-                      cells: [
+                      (absence) => DataRow(cells: [
                         DataCell(Container(
                             width: 70, //SET width
-                            child: Text("${absence.nombreCompleto ?? "No registrado"}"))),
-
+                            child: Text(
+                                "${absence.nombreCompleto ?? "No registrado"}"))),
                         DataCell(
                           Text("${absence.fecha ?? "No registrado"}"),
                         ),
                         DataCell(Container(
                             width: 200, //SET width
-                            child: Text("${absence.motivoAusencia ?? "No registrado"}"))),
-                        DataCell(Container(
-                          // width: 40,
-                          child:  absence.urlArchivo != null && absence.urlArchivo != '' ?
-                          Text("${absence.urlArchivo }") :
-                          RaisedButton(
-                            color: DesignCourseAppTheme.nearlyBlue,
-                            child:  Icon(
-                              Icons.add_rounded,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                            onPressed: (){
-                              // Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrarQR(_exitOrUpdate)));
-                            },
+                            child: Text(
+                                "${absence.motivoAusencia ?? "No registrado"}"))),
+                        DataCell(
+                          Container(
+                            // width: 40,
+                            child: absence.urlArchivo != null &&
+                                    absence.urlArchivo != ''
+                                ? Text("${absence.urlArchivo}")
+                                : RaisedButton(
+                                    color: DesignCourseAppTheme.nearlyBlue,
+                                    child: Icon(
+                                      Icons.add_rounded,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
+                                    onPressed: () {
+                                      // Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrarQR(_exitOrUpdate)));
+                                    },
+                                  ),
                           ),
-                        ),
                         )
                       ]),
-                )
+                    )
                     .toList(),
               ),
             ),
           ),
-        )
-    );
+        ));
   }
-
-
 }
-
 
 class AbsencesActivityAdmin extends StatefulWidget {
   @override
-  _AbsencesAdminWidgetState createState() => _AbsencesAdminWidgetState();
+  final user;
+  AbsencesActivityAdmin({Key key, @required this.user}) : super(key: key);
+
+  @override
+  _AbsencesAdminWidgetState createState() =>
+      _AbsencesAdminWidgetState(user: user);
 }
 
 class _AbsencesAdminWidgetState extends State<AbsencesActivityAdmin> {
+  final user;
+
+  _AbsencesAdminWidgetState({
+    Key key,
+    @required this.user,
+  });
+
   @override
   void initState() {
     super.initState();
@@ -109,7 +122,8 @@ class _AbsencesAdminWidgetState extends State<AbsencesActivityAdmin> {
                       top: MediaQuery.of(context).padding.top,
                       left: 16,
                       right: 16),
-                  child: Image.asset('assets/images/logoPaloma.png',width: 150,height: 150),
+                  child: Image.asset('assets/images/logoPaloma.png',
+                      width: 150, height: 150),
                 ),
                 Container(
                   padding: const EdgeInsets.only(top: 8),
@@ -124,7 +138,8 @@ class _AbsencesAdminWidgetState extends State<AbsencesActivityAdmin> {
                 Container(
                   padding: const EdgeInsets.only(top: 16),
                   child: FutureBuilder<List<Absences>>(
-                    future: apiAbsences.getAdminAbsences(http.Client(), "Absences"),
+                    future:
+                        apiAbsences.getAdminAbsences(http.Client(), "Absences"),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) print(snapshot.error);
                       return snapshot.hasData
@@ -140,9 +155,4 @@ class _AbsencesAdminWidgetState extends State<AbsencesActivityAdmin> {
       ),
     );
   }
-
-
 }
-
-
-

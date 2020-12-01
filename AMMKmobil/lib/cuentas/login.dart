@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 var IdC;
 var IdR;
+var IdE;
 
 Future<Cuenta> createAlbum(String username, String password) async {
   final http.Response response = await http.post(
@@ -14,49 +15,50 @@ Future<Cuenta> createAlbum(String username, String password) async {
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(<String, String>{
-      'username': username ,
-      'password': password
-    }),
+    body: jsonEncode(
+        <String, String>{'username': username, 'password': password}),
   );
 
   if (response.statusCode == 200) {
-    if(response.body == "0"){
-      print ("Error 0");
-      throw Exception('Failed to login');
-    }else if(response.body == "-1"){
-      print ("Error -1");
-      throw Exception('Failed to login');
-    }else {
+    if (response.body == "0") {
+      print("Error 0");
+      // throw Exception('Failed to login');
+    } else if (response.body == "-1") {
+      print("Error -1");
+      // throw Exception('Failed to login');
+    } else {
       final jsonresponse = json.decode(response.body);
       print(jsonresponse[0]);
 
       return Cuenta.fromJson(jsonresponse[0]);
     }
   } else {
-    print (response.statusCode);
+    print(response.statusCode);
     print(response.body);
-    throw Exception('Failed to login.');
+    // throw Exception('Failed to login.');
   }
 }
 
 class Cuenta {
   final String idCuenta;
   final String idRol;
+  final String idEmployee;
 
-  Cuenta({this.idCuenta, this.idRol});
+  Cuenta({this.idCuenta, this.idRol, this.idEmployee});
 
   factory Cuenta.fromJson(Map<String, dynamic> json) {
     IdC = json['id'].toString();
     IdR = json['idRol'].toString();
+    IdE = json['idEmployee'].toString();
     return Cuenta(
       idCuenta: json['id'].toString(),
       idRol: json['idRol'].toString(),
+      idEmployee: json['idEmployee'].toString(),
     );
   }
 }
 
-class Login extends StatefulWidget{
+class Login extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new _State();
 }
@@ -82,15 +84,15 @@ class _State extends State<Login> {
         ),
         body: Container(
             padding: EdgeInsets.all(20),
-            child: Form(          // <= NEW
+            child: Form(
+                // <= NEW
 
                 key: _formKey,
-
                 child: ListView(
                   children: <Widget>[
                     Container(
-                      child: Image.asset('assets/images/LogoAmmk.jpg',
-
+                      child: Image.asset(
+                        'assets/images/LogoAmmk.jpg',
                         width: 400,
                         height: 250,
                       ),
@@ -135,29 +137,31 @@ class _State extends State<Login> {
                           textColor: Colors.white,
                           color: Colors.blue,
                           child: Text('Iniciar Sesión'),
-                          onPressed: ()  {
+                          onPressed: () {
                             final form = _formKey.currentState;
                             form.save();
                             if (form.validate()) {
                               setState(() {
-                                _futureAlbum = createAlbum(_username, _password);
+                                _futureAlbum =
+                                    createAlbum(_username, _password);
                               });
                             }
-                            Future.delayed(const Duration(milliseconds: 4000), () {
-
-                              if (IdC != null){
+                            Future.delayed(const Duration(milliseconds: 4000),
+                                () {
+                              if (IdC != null) {
                                 Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => NavigationHomeScreen(user: [IdC, IdR] ,)));
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            NavigationHomeScreen(
+                                              user: [IdC, IdR, IdE],
+                                            )));
                               }
                             });
                             // Validate will return true if is valid, or false if invalid.
-
                           },
                         )),
-
                   ],
-                ))) );
-
+                ))));
   }
 }

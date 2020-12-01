@@ -5,25 +5,33 @@ import 'package:best_flutter_ui_templates/cuentas/login.dart';
 
 import '../cuentas/login.dart';
 
-
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer(
       {Key key,
       this.screenIndex,
       this.iconAnimationController,
-      this.callBackIndex})
+      this.callBackIndex,
+      this.user})
       : super(key: key);
 
   final AnimationController iconAnimationController;
   final screenIndex;
   final Function(DrawerIndex) callBackIndex;
+  final user;
 
   @override
-  _HomeDrawerState createState() => _HomeDrawerState();
+  _HomeDrawerState createState() => _HomeDrawerState(user: user);
 }
 
 class _HomeDrawerState extends State<HomeDrawer> {
   List<DrawerList> drawerList;
+  final user;
+
+  _HomeDrawerState({
+    Key key,
+    @required this.user,
+  });
+
   @override
   void initState() {
     setDrawerListArray();
@@ -31,66 +39,82 @@ class _HomeDrawerState extends State<HomeDrawer> {
   }
 
   void setDrawerListArray() {
-    drawerList = <DrawerList>[
-      DrawerList(
-        index: DrawerIndex.HOME,
-        labelName: 'Vista Principal',
-        icon: Icon(Icons.home),
-      ),
-      DrawerList(
-        index: DrawerIndex.Help,
-        labelName: 'Registrar asistencia',
-        // isAssetsImage: true,
-        // imageName: 'assets/images/supportIcon.png',
-        icon: Icon(Icons.qr_code_scanner),
-      ),
-      DrawerList(
-        index: DrawerIndex.Absences,
-        labelName: 'Ausencias',
-        // isAssetsImage: true,
-        // imageName: 'assets/images/supportIcon.png',
-        icon: Icon(Icons.cancel_schedule_send),
-      ),
-      DrawerList(
-        index: DrawerIndex.AdminAbsences,
-        labelName: 'AusenciasAdmin',
-        // isAssetsImage: true,
-        // imageName: 'assets/images/supportIcon.png',
-        icon: Icon(Icons.cancel_schedule_send),
-      ),
-      DrawerList(
-        index: DrawerIndex.QR,
-        labelName: 'Generar código QR',
-        // isAssetsImage: true,
-        // imageName: 'assets/images/supportIcon.png',
-        icon: Icon(Icons.qr_code_scanner),
-      ),
-      DrawerList(
-        index: DrawerIndex.MiNomina,
-        labelName: 'Mi nomina',
-        icon: Icon(Icons.attach_money),
-      ),
-      DrawerList(
-        index: DrawerIndex.MiHorario,
-        labelName: 'Mi horario',
-        icon: Icon(Icons.schedule),
-      ),
-      DrawerList(
-        index: DrawerIndex.NominaEmpleados,
-        labelName: 'Nomina Empleados',
-        icon: Icon(Icons.attach_money),
-      ),
-      DrawerList(
-        index: DrawerIndex.HorarioEmpleados,
-        labelName: 'Horario Empleados',
-        icon: Icon(Icons.schedule),
-      ),
-      DrawerList(
-        index: DrawerIndex.Share,
-        labelName: 'Version de app',
-        icon: Icon(Icons.info),
-      ),
-    ];
+    print(user);
+    if (user[1] == '3') {
+      drawerList = <DrawerList>[
+        DrawerList(
+          index: DrawerIndex.HOME,
+          labelName: 'Vista Principal',
+          icon: Icon(Icons.home),
+        ),
+        DrawerList(
+          index: DrawerIndex.AdminAbsences,
+          labelName: 'AusenciasAdmin',
+          // isAssetsImage: true,
+          // imageName: 'assets/images/supportIcon.png',
+          icon: Icon(Icons.cancel_schedule_send),
+        ),
+        DrawerList(
+          index: DrawerIndex.QR,
+          labelName: 'Generar código QR',
+          // isAssetsImage: true,
+          // imageName: 'assets/images/supportIcon.png',
+          icon: Icon(Icons.qr_code_scanner),
+        ),
+        DrawerList(
+          index: DrawerIndex.NominaEmpleados,
+          labelName: 'Nomina Empleados',
+          icon: Icon(Icons.attach_money),
+        ),
+        DrawerList(
+          index: DrawerIndex.HorarioEmpleados,
+          labelName: 'Horario Empleados',
+          icon: Icon(Icons.schedule),
+        ),
+        DrawerList(
+          index: DrawerIndex.Share,
+          labelName: 'Version de app',
+          icon: Icon(Icons.info),
+        ),
+      ];
+    } else {
+      drawerList = <DrawerList>[
+        DrawerList(
+          index: DrawerIndex.HOME,
+          labelName: 'Vista Principal',
+          icon: Icon(Icons.home),
+        ),
+        DrawerList(
+          index: DrawerIndex.Help,
+          labelName: 'Registrar asistencia',
+          // isAssetsImage: true,
+          // imageName: 'assets/images/supportIcon.png',
+          icon: Icon(Icons.qr_code_scanner),
+        ),
+        DrawerList(
+          index: DrawerIndex.Absences,
+          labelName: 'Ausencias',
+          // isAssetsImage: true,
+          // imageName: 'assets/images/supportIcon.png',
+          icon: Icon(Icons.cancel_schedule_send),
+        ),
+        DrawerList(
+          index: DrawerIndex.MiNomina,
+          labelName: 'Mi nomina',
+          icon: Icon(Icons.attach_money),
+        ),
+        DrawerList(
+          index: DrawerIndex.MiHorario,
+          labelName: 'Mi horario',
+          icon: Icon(Icons.schedule),
+        ),
+        DrawerList(
+          index: DrawerIndex.Share,
+          labelName: 'Version de app',
+          icon: Icon(Icons.info),
+        ),
+      ];
+    }
   }
 
   @override
@@ -195,7 +219,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   color: Colors.red,
                 ),
                 onTap: () {
-       Navigator.push(context,
+                  Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Login()));
                 },
               ),

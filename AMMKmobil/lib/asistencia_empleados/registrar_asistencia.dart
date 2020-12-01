@@ -60,7 +60,10 @@ class WorkedHoursList extends StatelessWidget {
 
 class RegisterAsistencia extends StatefulWidget {
   @override
-  _RegistrarAsistenciaState createState() => _RegistrarAsistenciaState();
+  final user;
+  RegisterAsistencia({Key key, @required this.user}) : super(key: key);
+  _RegistrarAsistenciaState createState() =>
+      _RegistrarAsistenciaState(user: user);
 }
 
 // Alert showed when user has register entrance and exit within same day
@@ -93,6 +96,12 @@ showAlertDialog(BuildContext context) {
 
 class _RegistrarAsistenciaState extends State<RegisterAsistencia> {
   final apiEmployees = ApiResolverEmployees();
+  final user;
+
+  _RegistrarAsistenciaState({
+    Key key,
+    @required this.user,
+  });
 
   @override
   void initState() {
@@ -161,7 +170,7 @@ class _RegistrarAsistenciaState extends State<RegisterAsistencia> {
                 padding: const EdgeInsets.only(top: 16),
                 child: FutureBuilder<List<WorkedHours>>(
                   future: apiEmployees.getClosestShiftByEmp(
-                      http.Client(), "closestShift", _idEmployee.toString()),
+                      http.Client(), "closestShift", user[2].toString()),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
                     return snapshot.hasData
