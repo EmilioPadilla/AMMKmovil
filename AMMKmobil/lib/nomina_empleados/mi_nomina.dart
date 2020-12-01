@@ -5,9 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import '../api/apiResolver.dart';
 import 'Payrolls.dart';
-import 'deducciones.dart';
-
-var _idEmployee = 2;
 
 class MyPayrollsTable extends StatelessWidget {
   final List<Payrolls> payrolls;
@@ -60,11 +57,20 @@ class MyPayrollsTable extends StatelessWidget {
 
 class MiNomina extends StatefulWidget {
   @override
-  _MiNominaState createState() => _MiNominaState();
+  final user;
+  MiNomina({Key key, @required this.user}) : super(key: key);
+
+  _MiNominaState createState() => _MiNominaState(user: user);
 }
 
 class _MiNominaState extends State<MiNomina> {
   final apiPayrolls = ApiResolverPayrolls();
+  final user;
+
+  _MiNominaState({
+    Key key,
+    @required this.user,
+  });
 
   @override
   void initState() {
@@ -104,7 +110,7 @@ class _MiNominaState extends State<MiNomina> {
                   Container(
                     child: FutureBuilder<List<Payrolls>>(
                       future: apiPayrolls.getPayrolls(
-                          http.Client(), _idEmployee.toString()),
+                          http.Client(), user[2].toString()),
                       builder: (context, snapshot) {
                         if (snapshot.hasError) print(snapshot.error);
                         return snapshot.hasData

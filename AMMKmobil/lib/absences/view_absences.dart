@@ -15,70 +15,83 @@ class AbsencesTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Padding (
+    return Padding(
         padding: const EdgeInsets.only(top: 16),
         child: Center(
           child: Container(
-
-    child:
-    SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: DataTable(
-      columns: [
-        DataColumn(
-            label: Text('Fecha',style: TextStyle(fontWeight: FontWeight.bold)),
-        ),
-        DataColumn(label: Text('Motivo',style: TextStyle(fontWeight: FontWeight.bold))),
-        DataColumn(label: Text('Comprobante',style: TextStyle(fontWeight: FontWeight.bold)),
-          tooltip: "Comprobante de ausencia",),
-      ],
-      rows: absencesList
-          .map(
-            (absence) => DataRow(
-            cells: [
-              DataCell(
-                Text("${absence.fecha ?? "No registrado"}"),
-              ),
-              DataCell(Container(
-                  width: 200, //SET width
-                  child: Text("${absence.motivoAusencia ?? "No registrado"}"))),
-              DataCell(Container(
-                  // width: 50,
-                  child:  absence.urlArchivo != null && absence.urlArchivo != ''?
-                  Text("${absence.urlArchivo }") :
-                  RaisedButton(
-                    color: DesignCourseAppTheme.nearlyBlue,
-                    child:  Icon(
-                      Icons.add_rounded,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    onPressed: (){
-                      // Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrarQR(_exitOrUpdate)));
-                    },
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                columns: [
+                  DataColumn(
+                    label: Text('Fecha',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
+                  DataColumn(
+                      label: Text('Motivo',
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(
+                    label: Text('Comprobante',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    tooltip: "Comprobante de ausencia",
+                  ),
+                ],
+                rows: absencesList
+                    .map(
+                      (absence) => DataRow(cells: [
+                        DataCell(
+                          Text("${absence.fecha ?? "No registrado"}"),
+                        ),
+                        DataCell(Container(
+                            width: 200, //SET width
+                            child: Text(
+                                "${absence.motivoAusencia ?? "No registrado"}"))),
+                        DataCell(
+                          Container(
+                            // width: 50,
+                            child: absence.urlArchivo != null &&
+                                    absence.urlArchivo != ''
+                                ? Text("${absence.urlArchivo}")
+                                : RaisedButton(
+                                    color: DesignCourseAppTheme.nearlyBlue,
+                                    child: Icon(
+                                      Icons.add_rounded,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
+                                    onPressed: () {
+                                      // Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrarQR(_exitOrUpdate)));
+                                    },
+                                  ),
+                          ),
+                        )
+                      ]),
+                    )
+                    .toList(),
               ),
-              )
-            ]),
-      )
-          .toList(),
-    ),
-    ),
-    ),
-    )
-    );
+            ),
+          ),
+        ));
   }
-
-
 }
-
 
 class AbsencesActivity extends StatefulWidget {
   @override
-  _AbsencesWidgetState createState() => _AbsencesWidgetState();
+  final user;
+  AbsencesActivity({Key key, @required this.user}) : super(key: key);
+
+  @override
+  _AbsencesWidgetState createState() => _AbsencesWidgetState(user: user);
 }
 
 class _AbsencesWidgetState extends State<AbsencesActivity> {
+  final user;
+
+  _AbsencesWidgetState({
+    Key key,
+    @required this.user,
+  });
+
   @override
   void initState() {
     super.initState();
@@ -102,7 +115,8 @@ class _AbsencesWidgetState extends State<AbsencesActivity> {
                       top: MediaQuery.of(context).padding.top,
                       left: 16,
                       right: 16),
-                  child: Image.asset('assets/images/logoPaloma.png',width: 150,height: 150),
+                  child: Image.asset('assets/images/logoPaloma.png',
+                      width: 150, height: 150),
                 ),
                 Container(
                   padding: const EdgeInsets.only(top: 8),
@@ -123,7 +137,7 @@ class _AbsencesWidgetState extends State<AbsencesActivity> {
                         decoration: BoxDecoration(
                           color: DesignCourseAppTheme.nearlyBlue,
                           borderRadius:
-                          const BorderRadius.all(Radius.circular(4.0)),
+                              const BorderRadius.all(Radius.circular(4.0)),
                           boxShadow: <BoxShadow>[
                             BoxShadow(
                                 color: Colors.grey.withOpacity(0.6),
@@ -132,20 +146,26 @@ class _AbsencesWidgetState extends State<AbsencesActivity> {
                           ],
                         ),
                         child: RaisedButton(
-                          textColor:  Colors.white,
+                          textColor: Colors.white,
                           color: DesignCourseAppTheme.nearlyBlue,
-                          child: Text('Registrar ausencia', textAlign: TextAlign.center,),
+                          child: Text(
+                            'Registrar ausencia',
+                            textAlign: TextAlign.center,
+                          ),
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => NotifyAbsence()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NotifyAbsence()));
                           },
-                        )
-                    ),
+                        )),
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.only(top: 16),
                   child: FutureBuilder<List<Absences>>(
-                    future: apiAbsences.getAbsences(http.Client(), "Absences", _idEmployee.toString()),
+                    future: apiAbsences.getAbsences(
+                        http.Client(), "Absences", user[2].toString()),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) print(snapshot.error);
                       return snapshot.hasData
@@ -161,9 +181,4 @@ class _AbsencesWidgetState extends State<AbsencesActivity> {
       ),
     );
   }
-
-
 }
-
-
-

@@ -9,7 +9,6 @@ import '../api/apiResolver.dart';
 import 'WorkedHours.dart';
 import 'FutureHours.dart';
 
-var _idEmployee = 2;
 var now = new DateTime.now();
 var limitDate = now.add(new Duration(days: 7));
 var formatter = new DateFormat('yyyy-MM-dd');
@@ -111,11 +110,21 @@ class MyFutureHoursTable extends StatelessWidget {
 
 class MiHorario extends StatefulWidget {
   @override
-  _MiHorarioState createState() => _MiHorarioState();
+  final user;
+  MiHorario({Key key, @required this.user}) : super(key: key);
+
+  @override
+  _MiHorarioState createState() => _MiHorarioState(user: user);
 }
 
 class _MiHorarioState extends State<MiHorario> {
   final apiEmployees = ApiResolverEmployees();
+  final user;
+
+  _MiHorarioState({
+    Key key,
+    @required this.user,
+  });
 
   @override
   void initState() {
@@ -124,6 +133,7 @@ class _MiHorarioState extends State<MiHorario> {
 
   @override
   Widget build(BuildContext context) {
+    print(user[1] == '3');
     return Container(
       color: AppTheme.nearlyWhite,
       child: SafeArea(
@@ -166,7 +176,7 @@ class _MiHorarioState extends State<MiHorario> {
                   Container(
                     child: FutureBuilder<List<FutureHours>>(
                       future: apiEmployees.getFutureHoursByEmp(http.Client(),
-                          today, limitDateStr, _idEmployee.toString()),
+                          today, limitDateStr, user[2].toString()),
                       builder: (context, snapshot) {
                         if (snapshot.hasError) print(snapshot.error);
                         return snapshot.hasData
@@ -189,7 +199,7 @@ class _MiHorarioState extends State<MiHorario> {
                   Container(
                     child: FutureBuilder<List<WorkedHours>>(
                       future: apiEmployees.getWorkedHoursByEmp(http.Client(),
-                          "WorkedHours/idEmployee", _idEmployee.toString()),
+                          "WorkedHours/idEmployee", user[2].toString()),
                       builder: (context, snapshot) {
                         if (snapshot.hasError) print(snapshot.error);
                         return snapshot.hasData
