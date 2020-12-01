@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 var IdC;
 var IdR;
 var IdE;
+var userError;
+var passError;
 
 Future<Cuenta> createAlbum(String username, String password) async {
   final http.Response response = await http.post(
@@ -20,16 +22,21 @@ Future<Cuenta> createAlbum(String username, String password) async {
   );
 
   if (response.statusCode == 200) {
+    IdC = 0;
+    IdR = 0;
     if (response.body == "0") {
+      final jsonresponse = json.decode(response.body);
       print("Error 0");
-      // throw Exception('Failed to login');
+      userError = 1;
+      return Cuenta.fromJson(jsonresponse);
     } else if (response.body == "-1") {
+      final jsonresponse = json.decode(response.body);
       print("Error -1");
-      // throw Exception('Failed to login');
+      passError = 1;
+      return Cuenta.fromJson(jsonresponse);
     } else {
       final jsonresponse = json.decode(response.body);
       print(jsonresponse[0]);
-
       return Cuenta.fromJson(jsonresponse[0]);
     }
   } else {
@@ -68,8 +75,8 @@ class _State extends State<Login> {
 
   Future<Cuenta> _futureAlbum;
   String idRol;
+  int confError;
   String idCuenta;
-
   String _password;
   String _username;
   TextEditingController nameController = TextEditingController();
@@ -133,6 +140,13 @@ class _State extends State<Login> {
                     Container(
                         height: 50,
                         padding: EdgeInsets.fromLTRB(100, 0, 100, 10),
+                        child: ((userError == null && passError == null) ||
+                                confError == null)
+                            ? Text("")
+                            : Text("Información incorrecta")),
+                    Container(
+                        height: 50,
+                        padding: EdgeInsets.fromLTRB(100, 0, 100, 10),
                         child: RaisedButton(
                           textColor: Colors.white,
                           color: Colors.blue,
@@ -148,7 +162,7 @@ class _State extends State<Login> {
                             }
                             Future.delayed(const Duration(milliseconds: 4000),
                                 () {
-                              if (IdC != null) {
+                              if (IdC != 0) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -156,6 +170,11 @@ class _State extends State<Login> {
                                             NavigationHomeScreen(
                                               user: [IdC, IdR, IdE],
                                             )));
+                              } else {
+                                setState(() {
+                                  confError = 1;
+                                  _showAlertDialog();
+                                });
                               }
                             });
                             // Validate will return true if is valid, or false if invalid.
@@ -163,5 +182,28 @@ class _State extends State<Login> {
                         )),
                   ],
                 ))));
+  }
+
+  void _showAlertDialog() {
+    showDialog(
+        context: context,
+        builder: (buildcontext) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Información de Sesión Incorrecta"),
+            actions: <Widget>[
+              RaisedButton(
+                child: Text(
+                  "CERRAR",
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.blue,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 }
