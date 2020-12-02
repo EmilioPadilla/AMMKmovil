@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
-String apiUrl = 'http://api.gestionammk.com/api';
+String apiUrl = 'http://10.0.2.2/api';
 
 class ApiResolverEmployees {
   ApiResolverEmployees();

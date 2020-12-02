@@ -4,6 +4,8 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import '../design_course_app_theme.dart';
 import 'dart:async';
+import './registrar_asistencia.dart';
+import 'package:sweetalert/sweetalert.dart';
 import '../api/apiResolver.dart';
 
 var _idEmployee = 2;
@@ -79,6 +81,17 @@ class _RegistrarQRState extends State<RegistrarQR> {
     );
     setState(() {
       qrCodeResult = codeSanner.rawContent;
+
+      SweetAlert.show(context,
+          title: "Registro Completado",
+          style: SweetAlertStyle.success);
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  RegisterAsistencia()));
+
       print(qrCodeResult);
     });
   }
